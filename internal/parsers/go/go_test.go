@@ -39,7 +39,7 @@ func TestParseFile(t *testing.T) {
 		want := 11
 
 		if len(dependencies) != want {
-			t.Errorf("got %d dependencies wanted %d", got, want)
+			t.Errorf("got %d want %d", got, want)
 		}
 	})
 

