@@ -83,7 +83,7 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 
 	// todo parse all responses
 	for _, res := range responses {
-		fmt.Print(res.)
+		fmt.Print(res)
 	}
 	return vulnerabilities, nil
 
