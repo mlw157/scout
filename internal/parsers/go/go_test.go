@@ -48,8 +48,8 @@ func TestParseFile(t *testing.T) {
 		data, _ := goparser.ReadFile(testFile)
 		dependencies, _ := goparser.ParseFile(data)
 
-		AssertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
-		AssertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
+		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
+		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
 
 	})
 
@@ -65,7 +65,7 @@ func TestParseFile(t *testing.T) {
 	})
 }
 
-func AssertEqualDependency(t testing.TB, got, want models.Dependency) {
+func assertEqualDependency(t testing.TB, got, want models.Dependency) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got %v want %v", got, want)
