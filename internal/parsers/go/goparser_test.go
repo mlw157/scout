@@ -8,6 +8,8 @@ import (
 
 const testFilePath = "../../../testcases/go/"
 
+// todo ParseFile test
+
 func TestReadFile(t *testing.T) {
 	t.Run("test can read file", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
@@ -34,7 +36,7 @@ func TestParseFile(t *testing.T) {
 	t.Run("test extract correct number of dependencies", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
 		data, _ := goparser.ReadFile(testFile)
-		dependencies, _ := goparser.ParseFile(data)
+		dependencies, _ := goparser.ParseModFile(data)
 		got := len(dependencies)
 		want := 11
 
@@ -46,7 +48,7 @@ func TestParseFile(t *testing.T) {
 	t.Run("test extract correct dependencies", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
 		data, _ := goparser.ReadFile(testFile)
-		dependencies, _ := goparser.ParseFile(data)
+		dependencies, _ := goparser.ParseModFile(data)
 
 		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
 		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
@@ -56,7 +58,7 @@ func TestParseFile(t *testing.T) {
 	t.Run("test incorrect file format", func(t *testing.T) {
 		testFile := "../../../testcases/python/requirements.txt.test"
 		data, _ := goparser.ReadFile(testFile)
-		_, err := goparser.ParseFile(data)
+		_, err := goparser.ParseModFile(data)
 
 		if err == nil {
 			t.Fatalf("Expected an error for invalid file format %q but got none", testFile)
