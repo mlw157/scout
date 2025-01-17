@@ -1,0 +1,11 @@
+module hello
+
+go 1.23.1
+
+toolchain go1.23.4
+
+require (
+	github.com/openfga/openfga v1.3.8
+	gogs.io/gogs v0.13.0
+)
+

@@ -1,4 +1,4 @@
-module github.com/bearer/bearer
+module hello
 
 go 1.23.1
 

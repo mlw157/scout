@@ -24,12 +24,12 @@ func NewGitHubAdvisoryService() *GitHubAdvisoryService {
 
 func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Dependency) ([]models.Vulnerability, error) {
 	// todo fix pagination (if dependencies len() exceeds 100)
+
 	affectsParam := buildAffectsParam(dependencies)
 	dependenciesLength := strconv.Itoa(len(dependencies))
 
 	// assuming all dependencies are same ecosystem
 	requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Language + "&per_page=" + dependenciesLength
-
 	resp, err := s.HTTPClient.Get(requestURL)
 
 	if err != nil {
@@ -93,7 +93,7 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 func buildAffectsParam(dependencies []models.Dependency) string {
 	dependencyList := ""
 	for _, dependency := range dependencies {
-		dependencyList += dependency.Name + "@" + dependency.Version + ", "
+		dependencyList += dependency.Name + "@" + dependency.Version + ","
 	}
 	return strings.Trim(dependencyList, ", ")
 }
