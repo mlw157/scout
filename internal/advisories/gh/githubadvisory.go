@@ -23,7 +23,7 @@ func NewGitHubAdvisoryService() *GitHubAdvisoryService {
 }
 
 func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Dependency) ([]models.Vulnerability, error) {
-	// todo fix pagination (if dependencies len() exceeds 100)
+	// todo fix pagination (if dependencies len() exceeds 100) (github api per_page param has a max of 100)
 
 	affectsParam := buildAffectsParam(dependencies)
 	dependenciesLength := strconv.Itoa(len(dependencies))
@@ -69,7 +69,7 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 		dependencyMap[dependency.Name] = dependency
 	}
 
-	// for now i'm assuming vulnerabilities array only has one element, I don't understand why gh api even returns this as an array? doesn't make sense
+	// for now, I'm assuming vulnerabilities array only has one element, I don't understand why gh api even returns this as an array? doesn't make sense
 	for _, res := range responses {
 		dependency := dependencyMap[res.Vulnerabilities[0].Package.Name]
 		vulnerabilities = append(vulnerabilities, models.Vulnerability{
@@ -89,11 +89,11 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 
 }
 
-// buildAffectsParam api.github.com/advisories parameter "affects" accepts a string of dependencies with versions
+// buildAffectsParam api.github.com/advisories parameter "affects" accepts a string of dependencies with versions seperated by commas
 func buildAffectsParam(dependencies []models.Dependency) string {
 	dependencyList := ""
 	for _, dependency := range dependencies {
 		dependencyList += dependency.Name + "@" + dependency.Version + ","
 	}
-	return strings.Trim(dependencyList, ", ")
+	return strings.Trim(dependencyList, ",")
 }

@@ -65,6 +65,19 @@ func TestParseFile(t *testing.T) {
 
 		}
 	})
+
+	t.Run("test file with no dependencies", func(t *testing.T) {
+		testFile := testFilePath + "go.mod.test_empty"
+		data, _ := goparser.ReadFile(testFile)
+		dependencies, _ := goparser.ParseModFile(data)
+
+		got := len(dependencies)
+		want := 0
+
+		if len(dependencies) != want {
+			t.Errorf("got %d want %d", got, want)
+		}
+	})
 }
 
 func assertEqualDependency(t testing.TB, got, want models.Dependency) {

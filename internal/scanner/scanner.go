@@ -6,6 +6,7 @@ import (
 	"github.com/mlw157/GoScan/internal/parsers"
 )
 
+// Scanner given a parser and advisory service, fetch vulnerabilities from a file
 type Scanner struct {
 	parser   parsers.ParserService
 	advisory advisories.AdvisoryService
@@ -18,6 +19,7 @@ func NewScanner(parser parsers.ParserService, advisory advisories.AdvisoryServic
 	}
 }
 
+// ScanResult dependencies and vulnerabilities fetched from a file
 type ScanResult struct {
 	Dependencies    []models.Dependency
 	Vulnerabilities []models.Vulnerability

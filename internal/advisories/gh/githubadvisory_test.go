@@ -9,8 +9,7 @@ import (
 	"testing"
 )
 
-// todo make worst case tests (mix of ecosystems, etc)
-// todo test FetchVulnerabilities (http)
+// todo make worst case tests (mix of ecosystems, pagination, http errors)
 func TestParseResponse(t *testing.T) {
 	service := gh.NewGitHubAdvisoryService()
 
