@@ -2,7 +2,6 @@ package filesystem_test
 
 import (
 	"fmt"
-	"github.com/mlw157/Probe/internal/detectors"
 	"github.com/mlw157/Probe/internal/detectors/filesystem"
 	"github.com/mlw157/Probe/internal/models"
 	"testing"
@@ -11,9 +10,9 @@ import (
 const testFilePath = "../../../testcases/detectors/"
 
 func TestDetectFiles(t *testing.T) {
+	detector := filesystem.NewFSDetector()
 	t.Run("test detect correct files", func(t *testing.T) {
-		detector := filesystem.NewFSDetector(nil, detectors.DefaultFilePatterns)
-		files, _ := detector.DetectFiles(testFilePath)
+		files, _ := detector.DetectFiles(testFilePath, nil, nil)
 
 		got := len(files)
 		want := 3
@@ -27,9 +26,8 @@ func TestDetectFiles(t *testing.T) {
 
 	t.Run("test excluded directories", func(t *testing.T) {
 		excluded := []string{"dont_scan_me"}
-		detector := filesystem.NewFSDetector(excluded, detectors.DefaultFilePatterns)
 
-		files, _ := detector.DetectFiles(testFilePath)
+		files, _ := detector.DetectFiles(testFilePath, excluded, nil)
 
 		got := len(files)
 		want := 2
@@ -42,10 +40,23 @@ func TestDetectFiles(t *testing.T) {
 
 	})
 
-	t.Run("test invalid path", func(t *testing.T) {
-		detector := filesystem.NewFSDetector(nil, detectors.DefaultFilePatterns)
+	t.Run("test specified ecosystems", func(t *testing.T) {
+		ecosystems := []string{"Maven"}
+		files, _ := detector.DetectFiles(testFilePath, nil, ecosystems)
 
-		_, err := detector.DetectFiles("asdsadsadas")
+		got := len(files)
+		want := 1
+
+		//logFiles(files)
+
+		if got != want {
+			t.Errorf("got %d want %d", got, want)
+		}
+
+	})
+
+	t.Run("test invalid path", func(t *testing.T) {
+		_, err := detector.DetectFiles("asdsadsadas", nil, nil)
 
 		//fmt.Println(err)
 

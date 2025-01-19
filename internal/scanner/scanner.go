@@ -19,14 +19,8 @@ func NewScanner(parser parsers.Parser, advisory advisories.AdvisoryService) *Sca
 	}
 }
 
-// ScanResult dependencies and vulnerabilities fetched from a file
-type ScanResult struct {
-	Dependencies    []models.Dependency
-	Vulnerabilities []models.Vulnerability
-}
-
 // ScanFile fetch dependencies from a file and fetch vulnerabilities
-func (s *Scanner) ScanFile(path string) (*ScanResult, error) {
+func (s *Scanner) ScanFile(path string) (*models.ScanResult, error) {
 	dependencies, err := s.parser.ParseFile(path)
 	if err != nil {
 		return nil, err
@@ -38,5 +32,5 @@ func (s *Scanner) ScanFile(path string) (*ScanResult, error) {
 		return nil, err
 	}
 
-	return &ScanResult{Dependencies: dependencies, Vulnerabilities: vulnerabilities}, nil
+	return &models.ScanResult{Dependencies: dependencies, Vulnerabilities: vulnerabilities}, nil
 }
