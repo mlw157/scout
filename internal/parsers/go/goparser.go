@@ -40,10 +40,9 @@ func ParseModFile(fileData *FileData) (dependencies []models.Dependency, err err
 	}
 	for _, req := range modFile.Require {
 		dependencies = append(dependencies, models.Dependency{
-			Name:       req.Mod.Path,
-			Version:    req.Mod.Version,
-			Ecosystem:  "go",
-			SourceFile: fileData.Path,
+			Name:      req.Mod.Path,
+			Version:   req.Mod.Version,
+			Ecosystem: "go",
 		})
 	}
 	return dependencies, nil

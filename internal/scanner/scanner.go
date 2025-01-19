@@ -32,5 +32,5 @@ func (s *Scanner) ScanFile(path string) (*models.ScanResult, error) {
 		return nil, err
 	}
 
-	return &models.ScanResult{Dependencies: dependencies, Vulnerabilities: vulnerabilities}, nil
+	return &models.ScanResult{Dependencies: dependencies, Vulnerabilities: vulnerabilities, SourceFile: path}, nil
 }

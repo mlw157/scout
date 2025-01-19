@@ -50,8 +50,8 @@ func TestParseFile(t *testing.T) {
 		data, _ := goparser.ReadFile(testFile)
 		dependencies, _ := goparser.ParseModFile(data)
 
-		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Ecosystem: "go", SourceFile: "../../../testcases/parsers/go/go.mod.test"})
-		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Ecosystem: "go", SourceFile: "../../../testcases/parsers/go/go.mod.test"})
+		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Ecosystem: "go"})
+		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Ecosystem: "go"})
 
 	})
 

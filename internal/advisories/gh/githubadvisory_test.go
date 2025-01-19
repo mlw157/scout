@@ -19,8 +19,8 @@ func TestParseResponse(t *testing.T) {
 		defer file.Close()
 
 		dependencies := []models.Dependency{
-			{Name: "gogs.io/gogs", Version: "0.13.0", Ecosystem: "go", SourceFile: ""},
-			{Name: "github.com/openfga/openfga", Version: "1.3.8", Ecosystem: "go", SourceFile: ""},
+			{Name: "gogs.io/gogs", Version: "0.13.0", Ecosystem: "go"},
+			{Name: "github.com/openfga/openfga", Version: "1.3.8", Ecosystem: "go"},
 		}
 
 		vulnerabilities, err := service.ParseResponse(file, dependencies)
@@ -44,8 +44,8 @@ func TestParseResponse(t *testing.T) {
 		defer file.Close()
 
 		dependencies := []models.Dependency{
-			{Name: "gogs.io/gogs", Version: "0.13.0", Ecosystem: "go", SourceFile: ""},
-			{Name: "github.com/openfga/openfga", Version: "1.3.8", Ecosystem: "go", SourceFile: ""},
+			{Name: "gogs.io/gogs", Version: "0.13.0", Ecosystem: "go"},
+			{Name: "github.com/openfga/openfga", Version: "1.3.8", Ecosystem: "go"},
 		}
 
 		vulnerabilities, err := service.ParseResponse(file, dependencies)

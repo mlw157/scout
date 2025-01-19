@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"fmt"
 	"github.com/mlw157/Probe/internal/advisories/gh"
 	"github.com/mlw157/Probe/internal/detectors"
 	"github.com/mlw157/Probe/internal/factories"
@@ -36,6 +37,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	var scanResults []*models.ScanResult
 
 	files, err := e.detector.DetectFiles(root, e.config.ExcludeFiles, e.config.Ecosystems)
+	fmt.Println(files)
 
 	if err != nil {
 		return nil, err
@@ -47,7 +49,6 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		scanResult, err := s.ScanFile(file.Path)
 
 		if err != nil {
@@ -71,6 +72,8 @@ func (e *Engine) populateScanners(file models.File) (*scanner.Scanner, error) {
 			return nil, err
 		}
 		e.scanners[file.Ecosystem] = newScanner
+
+		return newScanner, nil
 	}
 
 	return s, nil
