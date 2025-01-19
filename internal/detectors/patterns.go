@@ -7,8 +7,14 @@ type FilePattern struct {
 	Ecosystem string
 }
 
+var (
+	GoPattern       = FilePattern{Regex: regexp.MustCompile(`^go.mod$`), Ecosystem: "Go"}
+	MavenPattern    = FilePattern{regexp.MustCompile(`^pom.xml$`), "Maven"}
+	PipPattern      = FilePattern{regexp.MustCompile(`^requirements[-.0-9A-Za-z]*\.txt$`), "pip"}
+	NpmPattern      = FilePattern{Regex: regexp.MustCompile(`^package-lock\.json$`), Ecosystem: "npm"}
+	ComposerPattern = FilePattern{Regex: regexp.MustCompile(`^composer\.lock$`), Ecosystem: "Composer"}
+)
+
 var DefaultFilePatterns = []FilePattern{
-	{regexp.MustCompile(`^go.mod$`), "Go"},
-	{regexp.MustCompile(`^pom.xml$`), "Maven"},
-	{regexp.MustCompile(`^requirements\.txt$`), "pip"},
+	GoPattern, MavenPattern, PipPattern, NpmPattern, ComposerPattern,
 }
