@@ -1,8 +1,8 @@
 package filesystem
 
 import (
-	"github.com/mlw157/GoScan/internal/detectors"
-	"github.com/mlw157/GoScan/internal/models"
+	"github.com/mlw157/Probe/internal/detectors"
+	"github.com/mlw157/Probe/internal/models"
 	"io/fs"
 	"path/filepath"
 )

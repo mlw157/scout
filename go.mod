@@ -1,4 +1,4 @@
-module github.com/mlw157/GoScan
+module github.com/mlw157/Probe
 
 go 1.23.4
 

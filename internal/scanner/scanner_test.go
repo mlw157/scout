@@ -1,7 +1,7 @@
 package scanner_test
 
 import (
-	"github.com/mlw157/GoScan/internal/models"
+	"github.com/mlw157/Probe/internal/models"
 	"testing"
 )
 

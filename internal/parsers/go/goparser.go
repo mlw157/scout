@@ -2,7 +2,7 @@ package goparser
 
 import (
 	"errors"
-	"github.com/mlw157/GoScan/internal/models"
+	"github.com/mlw157/Probe/internal/models"
 	"golang.org/x/mod/modfile"
 	"os"
 )

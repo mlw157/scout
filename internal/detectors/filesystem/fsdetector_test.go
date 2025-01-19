@@ -2,9 +2,9 @@ package filesystem_test
 
 import (
 	"fmt"
-	"github.com/mlw157/GoScan/internal/detectors"
-	"github.com/mlw157/GoScan/internal/detectors/filesystem"
-	"github.com/mlw157/GoScan/internal/models"
+	"github.com/mlw157/Probe/internal/detectors"
+	"github.com/mlw157/Probe/internal/detectors/filesystem"
+	"github.com/mlw157/Probe/internal/models"
 	"testing"
 )
 

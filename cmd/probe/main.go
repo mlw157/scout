@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/mlw157/GoScan/internal/advisories/gh"
-	goparser "github.com/mlw157/GoScan/internal/parsers/go"
-	"github.com/mlw157/GoScan/internal/scanner"
+	"github.com/mlw157/Probe/internal/advisories/gh"
+	goparser "github.com/mlw157/Probe/internal/parsers/go"
+	"github.com/mlw157/Probe/internal/scanner"
 	"log"
 	"os"
 )

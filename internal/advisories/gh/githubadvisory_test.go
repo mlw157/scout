@@ -2,8 +2,8 @@ package gh_test
 
 import (
 	"fmt"
-	"github.com/mlw157/GoScan/internal/advisories/gh"
-	"github.com/mlw157/GoScan/internal/models"
+	"github.com/mlw157/Probe/internal/advisories/gh"
+	"github.com/mlw157/Probe/internal/models"
 	"os"
 	"reflect"
 	"testing"

@@ -3,7 +3,7 @@ package gh
 import (
 	"encoding/json"
 	"errors"
-	"github.com/mlw157/GoScan/internal/models"
+	"github.com/mlw157/Probe/internal/models"
 	"io"
 	"net/http"
 	"strconv"

@@ -1,8 +1,8 @@
 package goparser_test
 
 import (
-	"github.com/mlw157/GoScan/internal/models"
-	"github.com/mlw157/GoScan/internal/parsers/go"
+	"github.com/mlw157/Probe/internal/models"
+	"github.com/mlw157/Probe/internal/parsers/go"
 	"testing"
 )
 

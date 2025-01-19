@@ -1,9 +1,9 @@
 package scanner
 
 import (
-	"github.com/mlw157/GoScan/internal/advisories"
-	"github.com/mlw157/GoScan/internal/models"
-	"github.com/mlw157/GoScan/internal/parsers"
+	"github.com/mlw157/Probe/internal/advisories"
+	"github.com/mlw157/Probe/internal/models"
+	"github.com/mlw157/Probe/internal/parsers"
 )
 
 // Scanner given a parser and advisory service, fetch vulnerabilities from a file
