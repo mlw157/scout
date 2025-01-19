@@ -3,6 +3,6 @@ package models
 type Dependency struct {
 	Name       string
 	Version    string
-	Language   string
+	Ecosystem  string
 	SourceFile string
 }

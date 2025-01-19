@@ -8,11 +8,11 @@ import (
 
 // Scanner given a parser and advisory service, fetch vulnerabilities from a file
 type Scanner struct {
-	parser   parsers.ParserService
+	parser   parsers.Parser
 	advisory advisories.AdvisoryService
 }
 
-func NewScanner(parser parsers.ParserService, advisory advisories.AdvisoryService) *Scanner {
+func NewScanner(parser parsers.Parser, advisory advisories.AdvisoryService) *Scanner {
 	return &Scanner{
 		parser:   parser,
 		advisory: advisory,

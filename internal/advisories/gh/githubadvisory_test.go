@@ -14,13 +14,13 @@ func TestParseResponse(t *testing.T) {
 	service := gh.NewGitHubAdvisoryService()
 
 	t.Run("test extract correct number of vulnerabilities", func(t *testing.T) {
-		file, _ := os.Open("../../../testcases/github/github_advisory_response.json")
+		file, _ := os.Open("../../../testcases/advisories/github/github_advisory_response.json")
 
 		defer file.Close()
 
 		dependencies := []models.Dependency{
-			{Name: "gogs.io/gogs", Version: "0.13.0", Language: "go", SourceFile: ""},
-			{Name: "github.com/openfga/openfga", Version: "1.3.8", Language: "go", SourceFile: ""},
+			{Name: "gogs.io/gogs", Version: "0.13.0", Ecosystem: "go", SourceFile: ""},
+			{Name: "github.com/openfga/openfga", Version: "1.3.8", Ecosystem: "go", SourceFile: ""},
 		}
 
 		vulnerabilities, err := service.ParseResponse(file, dependencies)
@@ -40,12 +40,12 @@ func TestParseResponse(t *testing.T) {
 	})
 
 	t.Run("test extract correct vulnerabilities", func(t *testing.T) {
-		file, _ := os.Open("../../../testcases/github/github_advisory_response.json")
+		file, _ := os.Open("../../../testcases/advisories/github/github_advisory_response.json")
 		defer file.Close()
 
 		dependencies := []models.Dependency{
-			{Name: "gogs.io/gogs", Version: "0.13.0", Language: "go", SourceFile: ""},
-			{Name: "github.com/openfga/openfga", Version: "1.3.8", Language: "go", SourceFile: ""},
+			{Name: "gogs.io/gogs", Version: "0.13.0", Ecosystem: "go", SourceFile: ""},
+			{Name: "github.com/openfga/openfga", Version: "1.3.8", Ecosystem: "go", SourceFile: ""},
 		}
 
 		vulnerabilities, err := service.ParseResponse(file, dependencies)

@@ -2,7 +2,7 @@ package parsers
 
 import "github.com/mlw157/GoScan/internal/models"
 
-// ParserService this defines services which can parse a dependency file
-type ParserService interface {
+// Parser this defines services which can parse a dependency file
+type Parser interface {
 	ParseFile(path string) ([]models.Dependency, error)
 }

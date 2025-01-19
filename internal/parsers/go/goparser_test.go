@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-const testFilePath = "../../../testcases/go/"
+const testFilePath = "../../../testcases/parsers/go/"
 
 // todo ParseFile test
 
@@ -50,13 +50,13 @@ func TestParseFile(t *testing.T) {
 		data, _ := goparser.ReadFile(testFile)
 		dependencies, _ := goparser.ParseModFile(data)
 
-		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
-		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Language: "go", SourceFile: "../../../testcases/go/go.mod.test"})
+		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Ecosystem: "go", SourceFile: "../../../testcases/parsers/go/go.mod.test"})
+		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Ecosystem: "go", SourceFile: "../../../testcases/parsers/go/go.mod.test"})
 
 	})
 
 	t.Run("test incorrect file format", func(t *testing.T) {
-		testFile := "../../../testcases/python/requirements.txt.test"
+		testFile := "../../../testcases/parsers/python/requirements.txt.test"
 		data, _ := goparser.ReadFile(testFile)
 		_, err := goparser.ParseModFile(data)
 

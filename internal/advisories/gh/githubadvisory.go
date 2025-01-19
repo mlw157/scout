@@ -29,7 +29,7 @@ func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Depen
 	dependenciesLength := strconv.Itoa(len(dependencies))
 
 	// assuming all dependencies are same ecosystem
-	requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Language + "&per_page=" + dependenciesLength
+	requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Ecosystem + "&per_page=" + dependenciesLength
 	resp, err := s.HTTPClient.Get(requestURL)
 
 	if err != nil {

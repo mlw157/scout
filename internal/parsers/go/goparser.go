@@ -42,7 +42,7 @@ func ParseModFile(fileData *FileData) (dependencies []models.Dependency, err err
 		dependencies = append(dependencies, models.Dependency{
 			Name:       req.Mod.Path,
 			Version:    req.Mod.Version,
-			Language:   "go",
+			Ecosystem:  "go",
 			SourceFile: fileData.Path,
 		})
 	}
