@@ -2,8 +2,8 @@ package gh_test
 
 import (
 	"fmt"
-	"github.com/mlw157/Probe/internal/advisories/gh"
-	"github.com/mlw157/Probe/internal/models"
+	"github.com/mlw157/Scout/internal/advisories/gh"
+	"github.com/mlw157/Scout/internal/models"
 	"os"
 	"reflect"
 	"testing"
@@ -11,7 +11,7 @@ import (
 
 // todo make worst case tests (mix of ecosystems, pagination, http errors)
 func TestParseResponse(t *testing.T) {
-	service := gh.NewGitHubAdvisoryService()
+	service := gh.NewGitHubAdvisoryService("")
 
 	t.Run("test extract correct number of vulnerabilities", func(t *testing.T) {
 		file, _ := os.Open("../../../testcases/advisories/github/github_advisory_response.json")

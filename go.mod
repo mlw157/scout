@@ -1,4 +1,4 @@
-module github.com/mlw157/Probe
+module github.com/mlw157/Scout
 
 go 1.23.4
 

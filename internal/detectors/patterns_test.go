@@ -1,7 +1,7 @@
 package detectors_test
 
 import (
-	"github.com/mlw157/Probe/internal/detectors"
+	"github.com/mlw157/Scout/internal/detectors"
 	"testing"
 )
 

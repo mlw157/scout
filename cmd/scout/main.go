@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/mlw157/Probe/internal/detectors/filesystem"
-	"github.com/mlw157/Probe/internal/engine"
-	"github.com/mlw157/Probe/internal/exporters/jsonexporter"
+	"github.com/mlw157/Scout/internal/detectors/filesystem"
+	"github.com/mlw157/Scout/internal/engine"
+	"github.com/mlw157/Scout/internal/exporters/jsonexporter"
 	"log"
 	"strings"
 )
@@ -16,6 +16,8 @@ func main() {
 	ecosystemsFlag := flag.String("ecosystems", "", "Comma-separated list of ecosystems to scan (e.g., go,pip,maven)")
 	excludeDirsFlag := flag.String("exclude", "", "Comma-separated list of directory and file names to exclude (e.g., node_modules,.git,requirements-dev.txt)")
 	exportFlag := flag.Bool("export", false, "Export results to a file (default is no export)")
+	tokenFlag := flag.String("token", "", "GitHub token for authenticated API requests (optional)")
+
 	flag.Parse()
 
 	args := flag.Args()
@@ -54,12 +56,13 @@ func main() {
 	config := engine.Config{
 		Ecosystems:   ecosystems,
 		ExcludeFiles: excludeDirs,
+		Token:        *tokenFlag,
 	}
 
 	// if export flag is set, create a exporter
 	// todo make multiple export types, other than json
 	if *exportFlag {
-		config.Exporter = jsonexporter.NewJSONExporter("probe_report.json")
+		config.Exporter = jsonexporter.NewJSONExporter("scout_report.json")
 	}
 
 	scanEngine := engine.NewEngine(detector, config)

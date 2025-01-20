@@ -3,7 +3,7 @@ package gh
 import (
 	"encoding/json"
 	"errors"
-	"github.com/mlw157/Probe/internal/models"
+	"github.com/mlw157/Scout/internal/models"
 	"io"
 	"net/http"
 	"strconv"
@@ -13,12 +13,14 @@ import (
 type GitHubAdvisoryService struct {
 	BaseURL    string
 	HTTPClient *http.Client
+	Token      string // Optional GitHub Auth token (it increases hourly api requests from 60 to 5000)
 }
 
-func NewGitHubAdvisoryService() *GitHubAdvisoryService {
+func NewGitHubAdvisoryService(token string) *GitHubAdvisoryService {
 	return &GitHubAdvisoryService{
 		BaseURL:    "https://api.github.com/advisories",
 		HTTPClient: &http.Client{},
+		Token:      token,
 	}
 }
 
@@ -30,11 +32,21 @@ func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Depen
 
 	// assuming all dependencies are same ecosystem
 	requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Ecosystem + "&per_page=" + dependenciesLength
-	resp, err := s.HTTPClient.Get(requestURL)
 
+	req, err := http.NewRequest("GET", requestURL, nil)
 	if err != nil {
 		return nil, err
 	}
+
+	if s.Token != "" {
+		req.Header.Set("Authorization", "Bearer "+s.Token)
+	}
+
+	resp, err := s.HTTPClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {

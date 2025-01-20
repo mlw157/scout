@@ -2,12 +2,12 @@ package engine
 
 import (
 	"fmt"
-	"github.com/mlw157/Probe/internal/advisories/gh"
-	"github.com/mlw157/Probe/internal/detectors"
-	"github.com/mlw157/Probe/internal/exporters"
-	"github.com/mlw157/Probe/internal/factories"
-	"github.com/mlw157/Probe/internal/models"
-	"github.com/mlw157/Probe/internal/scanner"
+	"github.com/mlw157/Scout/internal/advisories/gh"
+	"github.com/mlw157/Scout/internal/detectors"
+	"github.com/mlw157/Scout/internal/exporters"
+	"github.com/mlw157/Scout/internal/factories"
+	"github.com/mlw157/Scout/internal/models"
+	"github.com/mlw157/Scout/internal/scanner"
 )
 
 // Engine will orchestrate scanners with a detector, essentially detecting files and passing them to the correct scanner
@@ -23,7 +23,7 @@ type Config struct {
 	Ecosystems   []string // if user specifies ecosystems to scan, default should be all
 	ExcludeFiles []string
 	Exporter     exporters.Exporter
-	//OutputFormat string // json, txt, etc
+	Token        string
 }
 
 func NewEngine(detector detectors.Detector, config Config) *Engine {
@@ -75,7 +75,7 @@ func (e *Engine) PopulateScanners(file models.File) (*scanner.Scanner, error) {
 	s, exists := e.scanners[file.Ecosystem]
 
 	if !exists {
-		newScanner, err := scannerFactory.CreateScanner(file.Ecosystem, gh.NewGitHubAdvisoryService())
+		newScanner, err := scannerFactory.CreateScanner(file.Ecosystem, gh.NewGitHubAdvisoryService(e.config.Token))
 		if err != nil {
 			return nil, err
 		}

@@ -2,8 +2,8 @@ package filesystem_test
 
 import (
 	"fmt"
-	"github.com/mlw157/Probe/internal/detectors/filesystem"
-	"github.com/mlw157/Probe/internal/models"
+	"github.com/mlw157/Scout/internal/detectors/filesystem"
+	"github.com/mlw157/Scout/internal/models"
 	"testing"
 )
 

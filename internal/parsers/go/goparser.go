@@ -1,8 +1,8 @@
-package _go
+package goparser
 
 import (
 	"errors"
-	"github.com/mlw157/Probe/internal/models"
+	"github.com/mlw157/Scout/internal/models"
 	"golang.org/x/mod/modfile"
 	"os"
 )

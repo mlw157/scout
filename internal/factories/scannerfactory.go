@@ -2,9 +2,9 @@ package factories
 
 import (
 	"errors"
-	"github.com/mlw157/Probe/internal/advisories"
-	goparser "github.com/mlw157/Probe/internal/parsers/go"
-	"github.com/mlw157/Probe/internal/scanner"
+	"github.com/mlw157/Scout/internal/advisories"
+	goparser "github.com/mlw157/Scout/internal/parsers/go"
+	"github.com/mlw157/Scout/internal/scanner"
 )
 
 type ScannerFactory struct {
