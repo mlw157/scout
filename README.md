@@ -72,9 +72,9 @@ docker run --rm -v "${PWD}:/scan" scout:latest -token ghp_123abc12rasdasdsa .
 
 ## Next Features
 
-More ecosystems supported (python, npm, php,...) <br/>
-Transitive Dependencies validation (dependencies of dependencies) <br/>
-SBOM Analyzer <br/>
-Reachability analysis
+- Support for more ecosystems (Python, npm, PHP, etc...)  
+- Validation of transitive dependencies (dependencies of dependencies)  
+- SBOM (Software Bill of Materials) analyzer  
+- Reachability analysis
 
 
