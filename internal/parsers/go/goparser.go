@@ -1,4 +1,4 @@
-package goparser
+package _go
 
 import (
 	"errors"

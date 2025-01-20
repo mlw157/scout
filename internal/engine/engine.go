@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/mlw157/Probe/internal/advisories/gh"
 	"github.com/mlw157/Probe/internal/detectors"
+	"github.com/mlw157/Probe/internal/exporters"
 	"github.com/mlw157/Probe/internal/factories"
 	"github.com/mlw157/Probe/internal/models"
 	"github.com/mlw157/Probe/internal/scanner"
@@ -21,7 +22,8 @@ var scannerFactory = factories.NewScannerFactory()
 type Config struct {
 	Ecosystems   []string // if user specifies ecosystems to scan, default should be all
 	ExcludeFiles []string
-	OutputFormat string // json, txt, etc
+	Exporter     exporters.Exporter
+	//OutputFormat string // json, txt, etc
 }
 
 func NewEngine(detector detectors.Detector, config Config) *Engine {
@@ -37,14 +39,14 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	var scanResults []*models.ScanResult
 
 	files, err := e.detector.DetectFiles(root, e.config.ExcludeFiles, e.config.Ecosystems)
-	fmt.Println(files)
+	//fmt.Println(files)
 
 	if err != nil {
 		return nil, err
 	}
 
 	for _, file := range files {
-		s, err := e.populateScanners(file)
+		s, err := e.PopulateScanners(file)
 
 		if err != nil {
 			return nil, err
@@ -58,12 +60,18 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 		scanResults = append(scanResults, scanResult)
 	}
 
+	if e.config.Exporter != nil {
+		if err := e.config.Exporter.Export(scanResults); err != nil {
+			return nil, fmt.Errorf("failed to export results: %v", err)
+		}
+	}
+
 	return scanResults, nil
 }
 
+// PopulateScanners if a scanner for the file ecosystem doesn't exist yet, make it and add it to map, for now we use default scanners (gh advisory)
 // todo don't use default advisory
-// if a scanner for the file ecosystem doesn't exist yet, make it and add it to map, for now we use default scanners (gh advisory)
-func (e *Engine) populateScanners(file models.File) (*scanner.Scanner, error) {
+func (e *Engine) PopulateScanners(file models.File) (*scanner.Scanner, error) {
 	s, exists := e.scanners[file.Ecosystem]
 
 	if !exists {

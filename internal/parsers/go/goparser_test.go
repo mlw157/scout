@@ -1,4 +1,4 @@
-package goparser_test
+package _go_test
 
 import (
 	"github.com/mlw157/Probe/internal/models"
@@ -13,7 +13,7 @@ const testFilePath = "../../../testcases/parsers/go/"
 func TestReadFile(t *testing.T) {
 	t.Run("test can read file", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
-		_, err := goparser.ReadFile(testFile)
+		_, err := _go.ReadFile(testFile)
 
 		if err != nil {
 			t.Fatalf("Failed to read %q got err %q", testFile, err)
@@ -22,7 +22,7 @@ func TestReadFile(t *testing.T) {
 
 	t.Run("test nonexistent file", func(t *testing.T) {
 		testFile := testFilePath + "this_file_does_not_exist"
-		_, err := goparser.ReadFile(testFile)
+		_, err := _go.ReadFile(testFile)
 
 		if err == nil {
 			t.Fatalf("Expected an error for nonexistent file %q but got none", testFile)
@@ -35,8 +35,8 @@ func TestReadFile(t *testing.T) {
 func TestParseFile(t *testing.T) {
 	t.Run("test extract correct number of dependencies", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
-		data, _ := goparser.ReadFile(testFile)
-		dependencies, _ := goparser.ParseModFile(data)
+		data, _ := _go.ReadFile(testFile)
+		dependencies, _ := _go.ParseModFile(data)
 		got := len(dependencies)
 		want := 11
 
@@ -47,8 +47,8 @@ func TestParseFile(t *testing.T) {
 
 	t.Run("test extract correct dependencies", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
-		data, _ := goparser.ReadFile(testFile)
-		dependencies, _ := goparser.ParseModFile(data)
+		data, _ := _go.ReadFile(testFile)
+		dependencies, _ := _go.ParseModFile(data)
 
 		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Ecosystem: "go"})
 		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Ecosystem: "go"})
@@ -57,8 +57,8 @@ func TestParseFile(t *testing.T) {
 
 	t.Run("test incorrect file format", func(t *testing.T) {
 		testFile := "../../../testcases/parsers/python/requirements.txt.test"
-		data, _ := goparser.ReadFile(testFile)
-		_, err := goparser.ParseModFile(data)
+		data, _ := _go.ReadFile(testFile)
+		_, err := _go.ParseModFile(data)
 
 		if err == nil {
 			t.Fatalf("Expected an error for invalid file format %q but got none", testFile)
@@ -68,8 +68,8 @@ func TestParseFile(t *testing.T) {
 
 	t.Run("test file with no dependencies", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test_empty"
-		data, _ := goparser.ReadFile(testFile)
-		dependencies, _ := goparser.ParseModFile(data)
+		data, _ := _go.ReadFile(testFile)
+		dependencies, _ := _go.ParseModFile(data)
 
 		got := len(dependencies)
 		want := 0
