@@ -1,8 +1,8 @@
 package filesystem
 
 import (
-	"github.com/mlw157/Scout/internal/detectors"
-	"github.com/mlw157/Scout/internal/models"
+	"github.com/mlw157/scout/internal/detectors"
+	"github.com/mlw157/scout/internal/models"
 	"io/fs"
 	"path/filepath"
 )

@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/mlw157/Scout/internal/detectors/filesystem"
-	"github.com/mlw157/Scout/internal/engine"
-	"github.com/mlw157/Scout/internal/exporters/jsonexporter"
+	"github.com/mlw157/scout/internal/detectors/filesystem"
+	"github.com/mlw157/scout/internal/engine"
+	"github.com/mlw157/scout/internal/exporters/jsonexporter"
 	"log"
 	"strings"
 )

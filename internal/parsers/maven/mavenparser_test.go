@@ -1,7 +1,7 @@
 package mavenparser_test
 
 import (
-	mavenparser "github.com/mlw157/Scout/internal/parsers/maven"
+	mavenparser "github.com/mlw157/scout/internal/parsers/maven"
 	"testing"
 )
 

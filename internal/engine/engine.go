@@ -2,12 +2,12 @@ package engine
 
 import (
 	"fmt"
-	"github.com/mlw157/Scout/internal/advisories/gh"
-	"github.com/mlw157/Scout/internal/detectors"
-	"github.com/mlw157/Scout/internal/exporters"
-	"github.com/mlw157/Scout/internal/factories"
-	"github.com/mlw157/Scout/internal/models"
-	"github.com/mlw157/Scout/internal/scanner"
+	"github.com/mlw157/scout/internal/advisories/gh"
+	"github.com/mlw157/scout/internal/detectors"
+	"github.com/mlw157/scout/internal/exporters"
+	"github.com/mlw157/scout/internal/factories"
+	"github.com/mlw157/scout/internal/models"
+	"github.com/mlw157/scout/internal/scanner"
 )
 
 // Engine will orchestrate scanners with a detector, essentially detecting files and passing them to the correct scanner

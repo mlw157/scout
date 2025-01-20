@@ -3,7 +3,7 @@ package gh
 import (
 	"encoding/json"
 	"errors"
-	"github.com/mlw157/Scout/internal/models"
+	"github.com/mlw157/scout/internal/models"
 	"io"
 	"net/http"
 	"strconv"

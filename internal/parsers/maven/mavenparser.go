@@ -3,7 +3,7 @@ package mavenparser
 import (
 	"encoding/xml"
 	"errors"
-	"github.com/mlw157/Scout/internal/models"
+	"github.com/mlw157/scout/internal/models"
 	"os"
 )
 

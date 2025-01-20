@@ -1,6 +1,6 @@
 package detectors
 
-import "github.com/mlw157/Scout/internal/models"
+import "github.com/mlw157/scout/internal/models"
 
 // Detector this defines services which can find dependency files, with options for excluding directories and filtering ecosystems
 type Detector interface {

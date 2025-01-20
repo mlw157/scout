@@ -1,9 +1,9 @@
 package scanner
 
 import (
-	"github.com/mlw157/Scout/internal/advisories"
-	"github.com/mlw157/Scout/internal/models"
-	"github.com/mlw157/Scout/internal/parsers"
+	"github.com/mlw157/scout/internal/advisories"
+	"github.com/mlw157/scout/internal/models"
+	"github.com/mlw157/scout/internal/parsers"
 )
 
 // Scanner given a parser and advisory service, fetch vulnerabilities from a file

@@ -2,10 +2,10 @@ package factories
 
 import (
 	"errors"
-	"github.com/mlw157/Scout/internal/advisories"
-	goparser "github.com/mlw157/Scout/internal/parsers/go"
-	mavenparser "github.com/mlw157/Scout/internal/parsers/maven"
-	"github.com/mlw157/Scout/internal/scanner"
+	"github.com/mlw157/scout/internal/advisories"
+	goparser "github.com/mlw157/scout/internal/parsers/go"
+	mavenparser "github.com/mlw157/scout/internal/parsers/maven"
+	"github.com/mlw157/scout/internal/scanner"
 )
 
 type ScannerFactory struct {

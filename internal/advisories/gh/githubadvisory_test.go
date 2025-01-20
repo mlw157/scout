@@ -2,8 +2,8 @@ package gh_test
 
 import (
 	"fmt"
-	"github.com/mlw157/Scout/internal/advisories/gh"
-	"github.com/mlw157/Scout/internal/models"
+	"github.com/mlw157/scout/internal/advisories/gh"
+	"github.com/mlw157/scout/internal/models"
 	"os"
 	"reflect"
 	"testing"

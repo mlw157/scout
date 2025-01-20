@@ -3,7 +3,7 @@ package jsonexporter
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mlw157/Scout/internal/models"
+	"github.com/mlw157/scout/internal/models"
 	"os"
 )
 
