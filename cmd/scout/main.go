@@ -34,7 +34,7 @@ func main() {
 		ecosystems = strings.Split(*ecosystemsFlag, ",")
 	} else {
 		// default ecosystems
-		ecosystems = []string{"go"}
+		ecosystems = []string{"go", "maven"}
 	}
 
 	// exclude directories flag

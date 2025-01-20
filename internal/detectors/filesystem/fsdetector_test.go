@@ -41,7 +41,7 @@ func TestDetectFiles(t *testing.T) {
 	})
 
 	t.Run("test specified ecosystems", func(t *testing.T) {
-		ecosystems := []string{"Maven"}
+		ecosystems := []string{"maven"}
 		files, _ := detector.DetectFiles(testFilePath, nil, ecosystems)
 
 		got := len(files)

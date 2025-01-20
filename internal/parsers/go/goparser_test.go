@@ -8,8 +8,6 @@ import (
 
 const testFilePath = "../../../testcases/parsers/go/"
 
-// todo ParseFile test
-
 func TestReadFile(t *testing.T) {
 	t.Run("test can read file", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
@@ -32,7 +30,7 @@ func TestReadFile(t *testing.T) {
 
 }
 
-func TestParseFile(t *testing.T) {
+func TestParseModFile(t *testing.T) {
 	t.Run("test extract correct number of dependencies", func(t *testing.T) {
 		testFile := testFilePath + "go.mod.test"
 		data, _ := goparser.ReadFile(testFile)
@@ -40,7 +38,7 @@ func TestParseFile(t *testing.T) {
 		got := len(dependencies)
 		want := 11
 
-		if len(dependencies) != want {
+		if got != want {
 			t.Errorf("got %d want %d", got, want)
 		}
 	})
