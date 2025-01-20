@@ -65,7 +65,7 @@ Exclude subdirectories or files
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest -exclude tests,package-lock.json .
 ```
-Exclude subdirectories or files
+Use GitHub token
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest -token ghp_123abc12rasdasdsa .
 ```
