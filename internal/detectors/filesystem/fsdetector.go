@@ -1,6 +1,7 @@
 package filesystem
 
 import (
+	"fmt"
 	"github.com/mlw157/scout/internal/detectors"
 	"github.com/mlw157/scout/internal/models"
 	"io/fs"
@@ -48,6 +49,7 @@ func (detector *FSDetector) visit(path string, d fs.DirEntry, err error, detecte
 		for _, pattern := range detector.filePatterns {
 			if pattern.Regex.MatchString(d.Name()) {
 				//fmt.Printf("File %s matched Pattern %v\n", d.Name(), pattern.Regex)
+				fmt.Printf("Found %v dependency file: %v\n", pattern.Ecosystem, path)
 				*detectedFiles = append(*detectedFiles, models.File{
 					Path:      path,
 					Ecosystem: pattern.Ecosystem,

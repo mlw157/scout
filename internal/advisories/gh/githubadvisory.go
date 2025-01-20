@@ -25,6 +25,11 @@ func NewGitHubAdvisoryService(token string) *GitHubAdvisoryService {
 }
 
 func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Dependency) ([]models.Vulnerability, error) {
+
+	if len(dependencies) == 0 {
+		return nil, nil
+	}
+	
 	// todo fix pagination (if dependencies len() exceeds 100) (github api per_page param has a max of 100)
 
 	affectsParam := buildAffectsParam(dependencies)

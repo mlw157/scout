@@ -36,7 +36,7 @@ func ReadFile(path string) (*FileData, error) {
 func ParseModFile(fileData *FileData) (dependencies []models.Dependency, err error) {
 	modFile, err := modfile.Parse("go.mod", fileData.Data, nil)
 	if err != nil {
-		return nil, errors.New("invalid file format")
+		return nil, errors.New("invalid go.mod file format")
 	}
 	for _, req := range modFile.Require {
 		dependencies = append(dependencies, models.Dependency{
