@@ -15,7 +15,9 @@ If you want to quickly use scout without building it from the source, you can pu
 ```bash
 docker pull ghcr.io/mlw157/scout:latest
 ```
-
+```bash
+docker tag ghcr.io/mlw157/scout:latest scout:latest
+```
 ### Option 2: Build from Source
 
 If you prefer building the Docker image locally: <br/>
@@ -35,10 +37,10 @@ Once the image is pulled or built, you can run scout inside a Docker container.
 
 | Flag | Description | Default | Example |
 | --- | --- | --- | --- |
-| `-ecosystems` | Ecosystems to scan | `all supported ones` | `-ecosystems=maven,pip` |
-| `-exclude` | File/Directory patterns to exclude | - | `-exclude=node_modules,.git` |
+| `-ecosystems` | Ecosystems to scan | `all supported ones` | `-ecosystems maven,pip` |
+| `-exclude` | File/Directory patterns to exclude | - | `-exclude node_modules,.git` |
 | `-export` | Export JSON report | `false` | `-export` |
-| `-token` | GitHub API token | - | `-token=ghp_123abc...` |
+| `-token` | GitHub API token | - | `-token ghp_123abc...` |
 ### Why Include a GitHub Token?
 
 It isn't necessary to use a GitHub token but, by default, unauthenticated requests to the GitHub API are limited to 60 requests per hour per IP. <br/>
