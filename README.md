@@ -1,8 +1,7 @@
 # Scout
 
 Scout is a lightweight Software Composition Analysis (SCA) tool. It analyzes your project's dependencies and checks them against known vulnerabilities.
-
-## Ecosystemes Supported so far
+## Ecosystems Supported so far
 
 **Go**: Scans go.mod files for vulnerabilities in Go dependencies.<br/>
 **Maven**: Scans pom.xml files for vulnerabilities in Maven dependencies.
@@ -71,9 +70,26 @@ Use GitHub token
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest -token ghp_123abc12rasdasdsa .
 ```
+## Architecture
+Scout is built using a modular, dependency injection-based architecture that allows for easy extension and customization:
 
+### Core Components
+- **Engine**: The main orchestrator that combines all components and runs the scanning process. It coordinates detectors, scanners, and exporters together.
+- **Scanner**: Combines a parser and an advisory service to scan dependencies and identify vulnerabilities.
+
+### Interfaces
+
+- **Parser**: Parsers are responsible for analyzing dependency files and extracting dependencies. (e.g GoParser, MavenParser, NpmParser)
+  
+- **Advisory**: Advisories are services that analyze dependencies to identify vulnerabilities. (e.g GitHub Advisory Database, Snyk Vulnerability Database, NIST Vulnerability Database)
+
+- **Detector**: Detectors are responsible for finding dependency files to scan. (e.g Filesystem Detector, GitRepositoryDetector)
+
+- **Exporter**: Exporters take the scan results and present them in the desired format. (e.g JSONExporter, HTMLExporter, CSVExporter)
+  
+  > **Note**: Some examples listed above are theoretical and not yet implemented. They are provided to illustrate potential future extensions of the system.
+  
 ## Next Features
-
 - Support for more ecosystems (Python, npm, PHP, etc...)  
 - Validation of transitive dependencies (dependencies of dependencies)  
 - SBOM (Software Bill of Materials) analyzer  
