@@ -2,7 +2,7 @@
 
 Scout is a lightweight Software Composition Analysis (SCA) tool. It analyzes your project's dependencies and checks them against known vulnerabilities.
 
-## Ecosystem Support so far
+## Ecosystemes Supported so far
 
 **Go**: Scans go.mod files for vulnerabilities in Go dependencies.<br/>
 **Maven**: Scans pom.xml files for vulnerabilities in Maven dependencies.
@@ -69,3 +69,12 @@ Exclude subdirectories or files
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest -token ghp_123abc12rasdasdsa .
 ```
+
+## Next Features
+
+More ecosystems supported (python, npm, php,...) <br/>
+Transitive Dependencies validation (dependencies of dependencies) <br/>
+SBOM Analyzer <br/>
+Reachability analysis
+
+
