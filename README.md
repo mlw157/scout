@@ -6,6 +6,7 @@ Scout is a lightweight Software Composition Analysis (SCA) tool. It analyzes you
 **Go**: Scans go.mod files for vulnerabilities in Go dependencies.<br/>
 **Maven**: Scans pom.xml files for vulnerabilities in Maven dependencies.<br/>
 **Python**: Scans requirements.txt files for vulnerabilities in pip dependencies.<br/>
+**NPM**: Scans package.json and package-lock.json files for vulnerabilities in npm dependencies.<br/>
 
 ## Installation
 ### Option 1: Pull the Docker Image from GitHub Container Registry
