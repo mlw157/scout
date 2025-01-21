@@ -4,7 +4,8 @@ import (
 	"errors"
 	"github.com/mlw157/scout/internal/advisories"
 	goparser "github.com/mlw157/scout/internal/parsers/go"
-	mavenparser "github.com/mlw157/scout/internal/parsers/maven"
+	mavenparser "github.com/mlw157/scout/internal/parsers/java"
+	pythonparser "github.com/mlw157/scout/internal/parsers/python"
 	"github.com/mlw157/scout/internal/scanner"
 )
 
@@ -21,6 +22,8 @@ func (f *ScannerFactory) CreateScanner(ecosystem string, advisory advisories.Adv
 		return scanner.NewScanner(goparser.NewGoParser(), advisory), nil
 	case "maven":
 		return scanner.NewScanner(mavenparser.NewMavenParser(), advisory), nil
+	case "pip":
+		return scanner.NewScanner(pythonparser.NewPipParser(), advisory), nil
 	default:
 		return nil, errors.New("unsupported ecosystem: " + ecosystem)
 	}

@@ -1,7 +1,7 @@
 package mavenparser_test
 
 import (
-	mavenparser "github.com/mlw157/scout/internal/parsers/maven"
+	mavenparser "github.com/mlw157/scout/internal/parsers/java"
 	"testing"
 )
 
@@ -9,7 +9,7 @@ const testFilePath = "../../../testcases/parsers/maven/"
 
 // todo add more tests
 func TestParsePomFile(t *testing.T) {
-	t.Run("test extract corret number of dependencies", func(t *testing.T) {
+	t.Run("test extract correct number of dependencies", func(t *testing.T) {
 		testFile := testFilePath + "pom.xml"
 		data, _ := mavenparser.ReadFile(testFile)
 		dependencies, _ := mavenparser.ParsePomFile(data)

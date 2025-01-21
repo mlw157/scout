@@ -1,0 +1,7 @@
+annotated-types==0.7.0
+anyio==2.1.0
+async-property==0.1.1
+codechecker==6.24.4
+bcrypt==3.2.0
+beautifulsoup4==2.1.1
+certifi==2024.8.30

@@ -51,7 +51,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 		if err != nil {
 			return nil, err
 		}
-		fmt.Printf("Scanning %v\n\n", file.Path)
+		fmt.Printf("Scanning %v\n", file.Path)
 		scanResult, err := s.ScanFile(file.Path)
 
 		if err != nil {
