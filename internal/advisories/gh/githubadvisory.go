@@ -2,11 +2,9 @@ package gh
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/mlw157/scout/internal/models"
 	"io"
 	"net/http"
-	"strconv"
 	"strings"
 )
 
@@ -24,46 +22,62 @@ func NewGitHubAdvisoryService(token string) *GitHubAdvisoryService {
 	}
 }
 
-func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Dependency) ([]models.Vulnerability, error) {
+// buildAffectsParam api.github.com/advisories parameter "affects" accepts a string of dependencies with versions seperated by commas
+func buildAffectsParam(dependencies []models.Dependency) string {
+	dependencyList := ""
+	for _, dependency := range dependencies {
+		dependencyList += dependency.Name + "@" + dependency.Version + ","
+	}
+	return strings.Trim(dependencyList, ",")
+}
 
+func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Dependency) ([]models.Vulnerability, error) {
 	if len(dependencies) == 0 {
 		return nil, nil
 	}
-	
-	// todo fix pagination (if dependencies len() exceeds 100) (github api per_page param has a max of 100)
+	var allVulnerabilities []models.Vulnerability
 
-	affectsParam := buildAffectsParam(dependencies)
-	dependenciesLength := strconv.Itoa(len(dependencies))
+	//todo fix possible pagination issue since it only can response with 100 vulnerabilities at once
 
-	// assuming all dependencies are same ecosystem
-	requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Ecosystem + "&per_page=" + dependenciesLength
+	// separate dependencies into batches in order to not go above uri length limit
+	const batchSize = 50
+	for i := 0; i < len(dependencies); i += batchSize {
+		end := i + batchSize
+		if end > len(dependencies) {
+			end = len(dependencies)
+		}
 
-	req, err := http.NewRequest("GET", requestURL, nil)
-	if err != nil {
-		return nil, err
+		batch := dependencies[i:end]
+		affectsParam := buildAffectsParam(batch)
+
+		requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Ecosystem
+
+		req, err := http.NewRequest("GET", requestURL, nil)
+		if err != nil {
+			return nil, err
+		}
+
+		if s.Token != "" {
+			req.Header.Set("Authorization", "Bearer "+s.Token)
+		}
+
+		resp, err := s.HTTPClient.Do(req)
+		if err != nil {
+			return nil, err
+		}
+
+		vulnerabilities, err := s.ParseResponse(resp.Body, batch)
+		resp.Body.Close()
+
+		if err != nil {
+			return nil, err
+		}
+
+		allVulnerabilities = append(allVulnerabilities, vulnerabilities...)
+
 	}
 
-	if s.Token != "" {
-		req.Header.Set("Authorization", "Bearer "+s.Token)
-	}
-
-	resp, err := s.HTTPClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("failed to fetch vulnerabilities" + resp.Status)
-	}
-
-	vulnerabilities, err := s.ParseResponse(resp.Body, dependencies)
-	if err != nil {
-		return nil, err
-	}
-
-	return vulnerabilities, nil
+	return allVulnerabilities, nil
 }
 
 func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []models.Dependency) ([]models.Vulnerability, error) {
@@ -104,13 +118,4 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 	}
 	return vulnerabilities, nil
 
-}
-
-// buildAffectsParam api.github.com/advisories parameter "affects" accepts a string of dependencies with versions seperated by commas
-func buildAffectsParam(dependencies []models.Dependency) string {
-	dependencyList := ""
-	for _, dependency := range dependencies {
-		dependencyList += dependency.Name + "@" + dependency.Version + ","
-	}
-	return strings.Trim(dependencyList, ",")
 }

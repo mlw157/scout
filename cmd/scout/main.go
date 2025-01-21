@@ -34,7 +34,7 @@ func main() {
 		ecosystems = strings.Split(*ecosystemsFlag, ",")
 	} else {
 		// default ecosystems
-		ecosystems = []string{"go", "maven", "pip"}
+		ecosystems = []string{"go", "maven", "pip", "npm"}
 	}
 
 	// exclude directories flag
@@ -81,7 +81,6 @@ func main() {
 		if len(result.Vulnerabilities) > 0 {
 			fmt.Println("Vulnerabilities found:")
 			fmt.Println()
-
 			for _, vulnerability := range result.Vulnerabilities {
 				fmt.Printf("Package: %s@%s\n", vulnerability.Dependency.Name, vulnerability.Dependency.Version)
 				fmt.Printf("CVE: %s\n", vulnerability.CVE)

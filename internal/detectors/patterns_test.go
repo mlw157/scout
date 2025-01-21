@@ -89,10 +89,10 @@ func TestPatterns(t *testing.T) {
 			want:     true,
 		},
 		{
-			name:     "package.json should not match",
+			name:     "package.json should match",
 			pattern:  detectors.NpmPattern,
 			filename: "package.json",
-			want:     false,
+			want:     true,
 		},
 	}
 

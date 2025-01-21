@@ -54,7 +54,7 @@ func TestParseModFile(t *testing.T) {
 	})
 
 	t.Run("test incorrect file format", func(t *testing.T) {
-		testFile := "../../../testcases/parsers/python/requirements.txt.test"
+		testFile := "../../../testcases/parsers/python/requirements.txt"
 		data, _ := goparser.ReadFile(testFile)
 		_, err := goparser.ParseModFile(data)
 
