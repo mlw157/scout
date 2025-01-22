@@ -49,7 +49,6 @@ func main() {
 	fmt.Printf("Path to scan: %s\n", rootDir)
 	fmt.Printf("Ecosystems to scan: %v\n", ecosystems)
 	fmt.Printf("Excluded directories: %v\n", excludeDirs)
-	fmt.Println("Scanning...")
 
 	detector := filesystem.NewFSDetector()
 
