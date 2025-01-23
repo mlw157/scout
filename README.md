@@ -94,7 +94,7 @@ Scout is built using a modular, dependency injection-based architecture that all
 ## Next Features
 - Support for more ecosystems
 - Validation of transitive dependencies (dependencies of dependencies)  
-- SBOM (Software Bill of Materials) analyzer  
+- SBOM (Software Bill of Materials) analyzer/generator  
 - Reachability analysis
 
 
