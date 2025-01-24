@@ -58,7 +58,7 @@ func TestDetectFiles(t *testing.T) {
 	t.Run("test invalid path", func(t *testing.T) {
 		_, err := detector.DetectFiles("asdsadsadas", nil, nil)
 
-		//fmt.Println(err)
+		fmt.Println(err)
 
 		if err == nil {
 			t.Fatalf("Expected an error for nonexistent directory but got none")

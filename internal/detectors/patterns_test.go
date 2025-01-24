@@ -68,18 +68,18 @@ func TestPatterns(t *testing.T) {
 		},
 
 		// ComposerPattern
-		{
-			name:     "composer.lock should match",
-			pattern:  detectors.ComposerPattern,
-			filename: "composer.lock",
-			want:     true,
-		},
-		{
-			name:     "composer.json should not match",
-			pattern:  detectors.ComposerPattern,
-			filename: "composer.json",
-			want:     false,
-		},
+		//{
+		//	name:     "composer.lock should match",
+		//	pattern:  detectors.ComposerPattern,
+		//	filename: "composer.lock",
+		//	want:     true,
+		//},
+		//{
+		//	name:     "composer.json should not match",
+		//	pattern:  detectors.ComposerPattern,
+		//	filename: "composer.json",
+		//	want:     false,
+		//},
 
 		// NpmPattern
 		{

@@ -16,6 +16,45 @@ func NewFSDetector() *FSDetector {
 	return &FSDetector{}
 }
 
+// DetectFilesChannel returns a channel immediately, running the anonymous function in another goroutine
+func (detector *FSDetector) DetectFilesChannel(root string, excludeDirs []string, ecosystems []string) (chan models.File, error) {
+	detector.populateFilePatterns(ecosystems)
+	filesChan := make(chan models.File, 100)
+
+	go func() {
+		defer close(filesChan)
+		err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			for _, exclude := range excludeDirs {
+				if d.Name() == exclude {
+					return filepath.SkipDir
+				}
+			}
+
+			if !d.IsDir() {
+				for _, pattern := range detector.filePatterns {
+					if pattern.Regex.MatchString(d.Name()) {
+						fmt.Printf("Found %v dependency file: %v\n", pattern.Ecosystem, path)
+						filesChan <- models.File{
+							Path:      path,
+							Ecosystem: pattern.Ecosystem,
+						}
+					}
+				}
+			}
+			return nil
+		})
+		if err != nil {
+			return
+		}
+	}()
+
+	return filesChan, nil
+}
+
 func (detector *FSDetector) DetectFiles(root string, excludeDirs []string, ecosystems []string) ([]models.File, error) {
 	detector.populateFilePatterns(ecosystems)
 
@@ -65,7 +104,6 @@ func (detector *FSDetector) visit(path string, d fs.DirEntry, err error, detecte
 // based on the desired ecosystems, will populate file patterns to be used in detection, if no ecosystems are passed, all file patterns will be used
 func (detector *FSDetector) populateFilePatterns(ecosystems []string) {
 	detector.filePatterns = []detectors.FilePattern{}
-
 	if len(ecosystems) > 0 {
 		for _, ecosystem := range ecosystems {
 			if pattern, exists := detectors.DefaultFilePatterns[ecosystem]; exists {
