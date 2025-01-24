@@ -42,10 +42,10 @@ Once the image is pulled or built, you can run scout inside a Docker container.
 | `-exclude` | File/Directory patterns to exclude | - | `-exclude node_modules,.git` |
 | `-export` | Export JSON report | `false` | `-export` |
 | `-token` | GitHub API token | - | `-token ghp_123abc...` |
-### Why Include a GitHub Token?
+### Why include a GitHub Token?
 
 It isn't necessary to use a GitHub token but, by default, unauthenticated requests to the GitHub API are limited to 60 requests per hour per IP. <br/>
-If you include a GitHub token, your request limit increases to 5000 requests per hour, which is especially useful if you are scanning large or multiple repositories. (Scout makes a request for every dependency file or every 100 dependencies detected) <br/>
+If you include a GitHub token, your request limit increases to 5000 requests per hour, which is especially useful if you are scanning large or multiple repositories. (Scout makes a request for every dependency file or every 50 dependencies detected) <br/>
 <br/>
 A GitHub App token that is owned by a GitHub Enterprise Cloud has a even bigger limit of 15000 requests per hour.<br/>
 <br/>
