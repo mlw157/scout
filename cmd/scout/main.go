@@ -17,7 +17,7 @@ func main() {
 	excludeDirsFlag := flag.String("exclude", "", "Comma-separated list of directory and file names to exclude (e.g., node_modules,.git,requirements-dev.txt)")
 	exportFlag := flag.Bool("export", false, "Export results to a file (default is no export)")
 	tokenFlag := flag.String("token", "", "GitHub token for authenticated API requests (optional)")
-	experimentalFlag := flag.Bool("experimental", false, "Enable experimental mode")
+	sequentialFlag := flag.Bool("sequential", false, "Processes each file individually without concurrent execution (not recommended)")
 
 	flag.Parse()
 
@@ -54,10 +54,10 @@ func main() {
 	detector := filesystem.NewFSDetector()
 
 	config := engine.Config{
-		Ecosystems:       ecosystems,
-		ExcludeFiles:     excludeDirs,
-		Token:            *tokenFlag,
-		ExperimentalMode: *experimentalFlag,
+		Ecosystems:     ecosystems,
+		ExcludeFiles:   excludeDirs,
+		Token:          *tokenFlag,
+		SequentialMode: *sequentialFlag,
 	}
 
 	// if export flag is set, create a exporter

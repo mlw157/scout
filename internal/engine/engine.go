@@ -21,11 +21,11 @@ type Engine struct {
 var scannerFactory = factories.NewScannerFactory()
 
 type Config struct {
-	Ecosystems       []string // if user specifies ecosystems to scan, default should be all
-	ExcludeFiles     []string
-	Exporter         exporters.Exporter
-	Token            string
-	ExperimentalMode bool
+	Ecosystems     []string // if user specifies ecosystems to scan, default should be all
+	ExcludeFiles   []string
+	Exporter       exporters.Exporter
+	Token          string
+	SequentialMode bool
 }
 
 func NewEngine(detector detectors.Detector, config Config) *Engine {
@@ -46,7 +46,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	}
 
 	// experimental will have goroutines scanning files as they are being found
-	if e.config.ExperimentalMode {
+	if !e.config.SequentialMode {
 		var mu sync.Mutex
 		var wg sync.WaitGroup
 
