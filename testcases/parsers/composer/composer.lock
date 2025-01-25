@@ -1,0 +1,29 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project"
+    ],
+    "content-hash": "some-hash-value",
+    "packages": [
+        {
+            "name": "librenms/librenms",
+            "version": "24.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/librenms/librenms.git",
+                "reference": "vulnerable-commit-hash"
+            }
+        },
+        {
+            "name": "example/dependency",
+            "version": "1.2.3"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "dev/tool",
+            "version": "0.1.0"
+        }
+    ],
+    "platform": [],
+    "platform-dev": []
+}

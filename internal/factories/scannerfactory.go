@@ -6,6 +6,7 @@ import (
 	goparser "github.com/mlw157/scout/internal/parsers/go"
 	mavenparser "github.com/mlw157/scout/internal/parsers/java"
 	npmparser "github.com/mlw157/scout/internal/parsers/npm"
+	composerparser "github.com/mlw157/scout/internal/parsers/php"
 	pythonparser "github.com/mlw157/scout/internal/parsers/python"
 	"github.com/mlw157/scout/internal/scanner"
 )
@@ -27,6 +28,8 @@ func (f *ScannerFactory) CreateScanner(ecosystem string, advisory advisories.Adv
 		return scanner.NewScanner(pythonparser.NewPipParser(), advisory), nil
 	case "npm":
 		return scanner.NewScanner(npmparser.NewNodeParser(), advisory), nil
+	case "composer":
+		return scanner.NewScanner(composerparser.NewComposerParser(), advisory), nil
 
 	default:
 		return nil, errors.New("unsupported ecosystem: " + ecosystem)
