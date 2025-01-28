@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/mlw157/scout/internal/models"
+	"log"
 	"os"
 )
 
@@ -71,6 +72,6 @@ func (j *JSONExporter) Export(results []*models.ScanResult) error {
 		return fmt.Errorf("failed to encode results to JSON: %v", err)
 	}
 
-	fmt.Printf("Vulnerabilities exported to %s\n", j.OutputFile)
+	log.Printf("Vulnerabilities exported to %s\n", j.OutputFile)
 	return nil
 }

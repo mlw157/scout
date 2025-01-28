@@ -47,9 +47,9 @@ func main() {
 		excludeDirs = []string{}
 	}
 
-	fmt.Printf("Path to scan: %s\n", rootDir)
-	fmt.Printf("Ecosystems to scan: %v\n", ecosystems)
-	fmt.Printf("Excluded directories: %v\n", excludeDirs)
+	log.Printf("Path to scan: %s\n", rootDir)
+	log.Printf("Ecosystems to scan: %v\n", ecosystems)
+	log.Printf("Excluded directories: %v\n", excludeDirs)
 
 	detector := filesystem.NewFSDetector()
 
@@ -73,22 +73,22 @@ func main() {
 		log.Fatalf("Scan failed: %v", err)
 	}
 
-	fmt.Printf("Scan results for directory: %s\n\n", rootDir)
+	log.Printf("Scan results for directory: %s\n\n", rootDir)
 
 	for _, result := range scanResults {
-		fmt.Println("File: " + result.SourceFile)
-		fmt.Printf("Found %d vulnerabilities in %d packages\n\n", len(result.Vulnerabilities), len(result.Dependencies))
+		log.Println("File: " + result.SourceFile)
+		log.Printf("Found %d vulnerabilities in %d packages\n\n", len(result.Vulnerabilities), len(result.Dependencies))
 
 		if len(result.Vulnerabilities) > 0 {
-			fmt.Println("Vulnerabilities found:")
+			log.Println("Vulnerabilities found:")
 			fmt.Println()
 			for _, vulnerability := range result.Vulnerabilities {
-				fmt.Printf("Package: %s@%s\n", vulnerability.Dependency.Name, vulnerability.Dependency.Version)
-				fmt.Printf("CVE: %s\n", vulnerability.CVE)
-				fmt.Printf("Severity: %s\n", vulnerability.Severity)
-				fmt.Printf("Summary: %s\n", vulnerability.Summary)
-				fmt.Printf("Upgrade to version %s in order to fix\n", vulnerability.FirstPatchedVersion)
-				fmt.Println()
+				log.Printf("Package: %s@%s\n", vulnerability.Dependency.Name, vulnerability.Dependency.Version)
+				log.Printf("CVE: %s\n", vulnerability.CVE)
+				log.Printf("Severity: %s\n", vulnerability.Severity)
+				log.Printf("Summary: %s\n", vulnerability.Summary)
+				log.Printf("Upgrade to version %s in order to fix\n", vulnerability.FirstPatchedVersion)
+				log.Println()
 
 			}
 		}

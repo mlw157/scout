@@ -5,6 +5,7 @@ import (
 	"github.com/mlw157/scout/internal/models"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -50,7 +51,7 @@ func (s *GitHubAdvisoryService) FetchVulnerabilities(dependencies []models.Depen
 		batch := dependencies[i:end]
 		affectsParam := buildAffectsParam(batch)
 
-		requestURL := s.BaseURL + "?affects=" + affectsParam + "&ecosystem=" + dependencies[0].Ecosystem
+		requestURL := s.BaseURL + "?affects=" + url.QueryEscape(affectsParam) + "&ecosystem=" + url.QueryEscape(dependencies[0].Ecosystem)
 
 		req, err := http.NewRequest("GET", requestURL, nil)
 		if err != nil {

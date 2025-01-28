@@ -8,6 +8,7 @@ import (
 	"github.com/mlw157/scout/internal/factories"
 	"github.com/mlw157/scout/internal/models"
 	"github.com/mlw157/scout/internal/scanner"
+	"log"
 	"sync"
 )
 
@@ -67,10 +68,10 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 				defer wg.Done()
 
 				s := e.scanners[f.Ecosystem]
-				fmt.Printf("Scanning %v\n", file.Path)
+				log.Printf("Scanning %v\n", file.Path)
 				scanResult, err := s.ScanFile(f.Path)
 				if err != nil {
-					fmt.Printf("Error scanning file %s: %v\n", f.Path, err)
+					log.Printf("Error scanning file %s: %v\n", f.Path, err)
 					return
 				}
 
@@ -90,11 +91,11 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 		}
 
 		for _, file := range files {
-			fmt.Printf("Scanning %v\n", file.Path)
+			log.Printf("Scanning %v\n", file.Path)
 			s := e.scanners[file.Ecosystem]
 			scanResult, err := s.ScanFile(file.Path)
 			if err != nil {
-				fmt.Printf("Error scanning file %s: %v\n", file.Path, err)
+				log.Printf("Error scanning file %s: %v\n", file.Path, err)
 				continue
 			}
 			scanResults = append(scanResults, scanResult)
