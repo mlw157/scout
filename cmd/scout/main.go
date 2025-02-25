@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/mlw157/scout/internal/detectors/filesystem"
 	"github.com/mlw157/scout/internal/engine"
+	"github.com/mlw157/scout/internal/exporters/dojoexporter"
 	"github.com/mlw157/scout/internal/exporters/jsonexporter"
 	"log"
 	"strings"
@@ -16,6 +17,8 @@ func main() {
 	ecosystemsFlag := flag.String("ecosystems", "", "Comma-separated list of ecosystems to scan (e.g., go,pip,maven)")
 	excludeDirsFlag := flag.String("exclude", "", "Comma-separated list of directory and file names to exclude (e.g., node_modules,.git,requirements-dev.txt)")
 	exportFlag := flag.Bool("export", false, "Export results to a file (default is no export)")
+	exportFormatFlag := flag.String("format", "json", "Export format: 'json' or 'dojo' (DefectDojo format)")
+	outputFileFlag := flag.String("output", "", "Output file path (defaults to scout_report.[format])")
 	tokenFlag := flag.String("token", "", "GitHub token for authenticated API requests (optional)")
 	sequentialFlag := flag.Bool("sequential", false, "Processes each file individually without concurrent execution (not recommended)")
 
@@ -61,9 +64,23 @@ func main() {
 	}
 
 	// if export flag is set, create a exporter
-	// todo make multiple export types, other than json
+	// todo make multiple export types, other than json and dojo
 	if *exportFlag {
-		config.Exporter = jsonexporter.NewJSONExporter("scout_report.json")
+		outputFile := *outputFileFlag
+
+		if *exportFormatFlag == "dojo" {
+			if outputFile == "" {
+				outputFile = "scout_report_dojo.json"
+			}
+			config.Exporter = dojoexporter.NewDojoExporter(outputFile)
+			log.Printf("Will export results in DefectDojo format to %s\n", outputFile)
+		} else {
+			if outputFile == "" {
+				outputFile = "scout_report.json"
+			}
+			config.Exporter = jsonexporter.NewJSONExporter(outputFile)
+			log.Printf("Will export results in JSON format to %s\n", outputFile)
+		}
 	}
 
 	scanEngine := engine.NewEngine(detector, config)

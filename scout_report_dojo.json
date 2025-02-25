@@ -1,0 +1,46 @@
+{
+  "findings": [
+    {
+      "title": "Cross-Site Request Forgery in CodeChecker API",
+      "severity": "High",
+      "description": "Cross-Site Request Forgery in CodeChecker API\n\nAffected File: testcases/parsers/python/requirements.txt\nPackage: codechecker@6.24.4\nRemediation: Update to version 6.24.5 or later\n",
+      "cve": "CVE-2024-53829"
+    },
+    {
+      "title": "Craft CMS has a potential RCE with a compromised security key",
+      "severity": "High",
+      "description": "Craft CMS has a potential RCE with a compromised security key\n\nAffected File: testcases/parsers/composer/composer.json\nPackage: craftcms/cms@5.5.4\nRemediation: Update to version 5.5.8 or later\n",
+      "cve": "CVE-2025-23209"
+    },
+    {
+      "title": "Elasticsearch allocation of resources without limits or throttling leads to crash",
+      "severity": "Medium",
+      "description": "Elasticsearch allocation of resources without limits or throttling leads to crash\n\nAffected File: testcases/parsers/maven/pom.xml\nPackage: org.elasticsearch:elasticsearch@7.17.20\nRemediation: Update to version 7.17.21 or later\n",
+      "cve": "CVE-2024-43709"
+    },
+    {
+      "title": "Elasticsearch stores private key on disk unencrypted",
+      "severity": "Medium",
+      "description": "Elasticsearch stores private key on disk unencrypted\n\nAffected File: testcases/parsers/maven/pom.xml\nPackage: org.elasticsearch:elasticsearch@7.17.20\nRemediation: Update to version 8.13.0 or later\n",
+      "cve": "CVE-2024-23444"
+    },
+    {
+      "title": "Librenms has a reflected XSS on error alert",
+      "severity": "Medium",
+      "description": "Librenms has a reflected XSS on error alert\n\nAffected File: testcases/parsers/composer/composer.lock\nPackage: librenms/librenms@24.10.1\nRemediation: Update to version 24.11.0 or later\n",
+      "cve": "CVE-2025-23201"
+    },
+    {
+      "title": "LibreNMS stored cross-site scripting (XSS) vulnerability in the Device Settings section",
+      "severity": "Medium",
+      "description": "LibreNMS stored cross-site scripting (XSS) vulnerability in the Device Settings section\n\nAffected File: testcases/parsers/composer/composer.lock\nPackage: librenms/librenms@24.10.1\nRemediation: Update to version 24.11.0 or later\n",
+      "cve": "CVE-2024-53457"
+    },
+    {
+      "title": "LibreNMS Arbitrary File Read",
+      "severity": "Medium",
+      "description": "LibreNMS Arbitrary File Read\n\nAffected File: testcases/parsers/composer/composer.lock\nPackage: librenms/librenms@24.10.1\nRemediation: Update to version 2017-08-18 or later\n",
+      "cve": "CVE-2017-16759"
+    }
+  ]
+}
