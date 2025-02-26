@@ -58,10 +58,8 @@ func TestParseResponse(t *testing.T) {
 
 		vulnerabilities[0].References = nil
 		vulnerabilities[0].Description = ""
-		vulnerabilities[0].VulnerableFunctions = nil
 		vulnerabilities[8].References = nil
 		vulnerabilities[8].Description = ""
-		vulnerabilities[8].VulnerableFunctions = nil
 
 		assertEqualVulnerability(t, vulnerabilities[0], models.Vulnerability{
 			Dependency:             dependencies[1],
@@ -73,7 +71,6 @@ func TestParseResponse(t *testing.T) {
 			VulnerableVersionRange: ">= 1.3.8, < 1.8.3",
 			FirstPatchedVersion:    "1.8.3",
 			References:             nil,
-			VulnerableFunctions:    nil,
 		})
 		assertEqualVulnerability(t, vulnerabilities[8], models.Vulnerability{
 			Dependency:             dependencies[1],
@@ -85,7 +82,6 @@ func TestParseResponse(t *testing.T) {
 			VulnerableVersionRange: "< 1.4.3",
 			FirstPatchedVersion:    "1.4.3",
 			References:             nil,
-			VulnerableFunctions:    nil,
 		})
 
 	})

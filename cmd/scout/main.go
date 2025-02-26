@@ -105,7 +105,7 @@ func main() {
 				log.Printf("Severity: %s\n", vulnerability.Severity)
 				log.Printf("Summary: %s\n", vulnerability.Summary)
 				log.Printf("Upgrade to version %s in order to fix\n", vulnerability.FirstPatchedVersion)
-				log.Println()
+				fmt.Println()
 
 			}
 		}

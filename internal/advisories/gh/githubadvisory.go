@@ -114,7 +114,6 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 			VulnerableVersionRange: res.Vulnerabilities[0].VulnerableVersionRange,
 			FirstPatchedVersion:    res.Vulnerabilities[0].FirstPatchedVersion,
 			References:             res.References,
-			VulnerableFunctions:    res.Vulnerabilities[0].VulnerableFunctions,
 		})
 	}
 	return vulnerabilities, nil
