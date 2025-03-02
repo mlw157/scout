@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// DEPRECATED
 type GitHubAdvisoryService struct {
 	BaseURL    string
 	HTTPClient *http.Client
@@ -101,7 +102,6 @@ func (s *GitHubAdvisoryService) ParseResponse(body io.Reader, dependencies []mod
 		dependencyMap[dependency.Name] = dependency
 	}
 
-	// for now, I'm assuming vulnerabilities array only has one element, I don't understand why gh api even returns this as an array? doesn't make sense
 	for _, res := range responses {
 		dependency := dependencyMap[res.Vulnerabilities[0].Package.Name]
 		vulnerabilities = append(vulnerabilities, models.Vulnerability{

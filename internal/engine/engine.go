@@ -2,7 +2,7 @@ package engine
 
 import (
 	"fmt"
-	"github.com/mlw157/scout/internal/advisories/gh"
+	"github.com/mlw157/scout/internal/advisories/db"
 	"github.com/mlw157/scout/internal/detectors"
 	"github.com/mlw157/scout/internal/exporters"
 	"github.com/mlw157/scout/internal/factories"
@@ -27,6 +27,8 @@ type Config struct {
 	Exporter       exporters.Exporter
 	Token          string
 	SequentialMode bool
+	LatestMode     bool
+	DatabasePath   string
 }
 
 func NewEngine(detector detectors.Detector, config Config) *Engine {
@@ -50,11 +52,6 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	if !e.config.SequentialMode {
 		var mu sync.Mutex
 		var wg sync.WaitGroup
-
-		err := e.populateScanners()
-		if err != nil {
-			return nil, err
-		}
 
 		filesChan, err := e.detector.DetectFilesChannel(root, e.config.ExcludeFiles, e.config.Ecosystems)
 		if err != nil {
@@ -111,14 +108,18 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	return scanResults, nil
 }
 
-// PopulateScanners if a scanner for the file ecosystem doesn't exist yet, make it and add it to map, for now we use default scanners (gh advisory)
+// PopulateScanners if a scanner for the file ecosystem doesn't exist yet, make it and add it to map, for now we use default scanners (database advisory)
 // todo don't use default advisory
 func (e *Engine) populateScanners() error {
+	a, err := db.NewDatabaseAdvisoryService(e.config.DatabasePath, e.config.LatestMode)
+	if err != nil {
+		return err
+	}
 	if len(e.config.Ecosystems) > 0 {
 		for _, ecosystem := range e.config.Ecosystems {
 			_, exists := e.scanners[ecosystem]
 			if !exists {
-				s, err := scannerFactory.CreateScanner(ecosystem, gh.NewGitHubAdvisoryService(e.config.Token))
+				s, err := scannerFactory.CreateScanner(ecosystem, a)
 				if err != nil {
 					return err
 				}
@@ -128,7 +129,7 @@ func (e *Engine) populateScanners() error {
 	}
 
 	for _, pattern := range detectors.DefaultFilePatterns {
-		s, err := scannerFactory.CreateScanner(pattern.Ecosystem, gh.NewGitHubAdvisoryService(e.config.Token))
+		s, err := scannerFactory.CreateScanner(pattern.Ecosystem, a)
 		if err != nil {
 			return err
 		}

@@ -1,6 +1,6 @@
 package db
 
-type DatabaseAdvisory struct {
+type Advisory struct {
 	ID                  string `gorm:"column:id;primaryKey"`
 	Package             string `gorm:"column:package"`
 	VersionRange        string `gorm:"column:version_range"`

@@ -6,6 +6,7 @@ import (
 	"github.com/mlw157/scout/internal/models"
 	"log"
 	"os"
+	"strings"
 )
 
 type DojoExporter struct {
@@ -38,20 +39,16 @@ func (d *DojoExporter) Export(results []*models.ScanResult) error {
 
 	for _, result := range results {
 		for _, vulnerability := range result.Vulnerabilities {
-			// Map Scout severity to DefectDojo severity
-			severity := mapSeverity(vulnerability.Severity)
+			severity := mapSeverity(strings.ToLower(vulnerability.Severity))
 
-			// Create a more comprehensive description that includes file path and affected component
 			enhancedDescription := fmt.Sprintf("%s\n\nAffected File: %s\nPackage: %s@%s\n",
 				vulnerability.Description,
 				result.SourceFile,
 				vulnerability.Dependency.Name,
 				vulnerability.Dependency.Version)
 
-			// Add remediation info if available
 			if vulnerability.FirstPatchedVersion != "" {
-				enhancedDescription += fmt.Sprintf("Remediation: Update to version %s or later\n",
-					vulnerability.FirstPatchedVersion)
+				enhancedDescription += fmt.Sprintf("Remediation: Update to version %s or later\n", vulnerability.FirstPatchedVersion)
 			}
 
 			dojoFinding := DojoFinding{
@@ -64,8 +61,6 @@ func (d *DojoExporter) Export(results []*models.ScanResult) error {
 			dojoFindings = append(dojoFindings, dojoFinding)
 		}
 	}
-
-	// Create the final Dojo report structure with just findings
 	dojoReport := map[string]interface{}{
 		"findings": dojoFindings,
 	}
@@ -89,9 +84,11 @@ func mapSeverity(scoutSeverity string) string {
 		return "High"
 	case "medium":
 		return "Medium"
+	case "moderate":
+		return "Medium"
 	case "low":
 		return "Low"
 	default:
-		return "Info" // Default to Info if unknown
+		return "Info" // default to Info if unknown
 	}
 }
