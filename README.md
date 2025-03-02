@@ -64,8 +64,7 @@ docker run --rm -v "${PWD}:/scan" scout:latest -format dojo .
 ```
 Export results to html file
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -format html -output custom_report.html
-
+docker run --rm -v "${PWD}:/scan" scout:latest -format html -output custom_report.html .
 ```
 Exclude subdirectories or files
 ```bash
