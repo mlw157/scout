@@ -39,6 +39,7 @@ func (h *HTMLEXporter) Export(results []*models.ScanResult) error {
 				"Severity":            severity,
 				"CVE":                 template.HTMLEscapeString(vulnerability.CVE),
 				"FirstPatchedVersion": template.HTMLEscapeString(vulnerability.FirstPatchedVersion),
+				"AffectedFile":        template.HTMLEscapeString(result.SourceFile),
 			})
 		}
 	}
@@ -130,10 +131,11 @@ func (h *HTMLEXporter) Export(results []*models.ScanResult) error {
         <table>
             <thead>
                 <tr>
-                    <th style="width: 30%">Dependency</th>
+                    <th style="width: 25%">Dependency</th>
                     <th style="width: 15%">Severity</th>
-                    <th style="width: 30%">CVE</th>
-                    <th style="width: 25%">First Patched Version</th>
+                    <th style="width: 20%">CVE</th>
+                    <th style="width: 20%">First Patched Version</th>
+                    <th style="width: 20%">Affected File</th>
                 </tr>
             </thead>
             <tbody>
@@ -143,6 +145,7 @@ func (h *HTMLEXporter) Export(results []*models.ScanResult) error {
                     <td><span class="severity-badge {{.Severity}}">{{.Severity}}</span></td>
                     <td class="cve">{{if .CVE}}{{.CVE}}{{else}}-{{end}}</td>
                     <td>{{if .FirstPatchedVersion}}{{.FirstPatchedVersion}}{{else}}-{{end}}</td>
+                    <td>{{.AffectedFile}}</td>
                 </tr>
                 {{end}}
             </tbody>
