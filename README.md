@@ -41,18 +41,9 @@ Once the image is pulled or built, you can run scout inside a Docker container.
 | --- | --- | --- | --- |
 | `-ecosystems` | Ecosystems to scan | `all supported ones` | `-ecosystems maven,pip` |
 | `-exclude` | File/Directory patterns to exclude | - | `-exclude node_modules,.git` |
-| `-export` | Export JSON report | `false` | `-export` |
-| `-format` | Export format | `json` | `-format dojo` |
+| `-format` | Export format (options: dojo, html, json) | `json` | `-format dojo` |
 | `-output` | Output file path | `[format]` | `-output custom_report.json` |
-| `-token` | GitHub API token | - | `-token ghp_123abc...` |
-### Why include a GitHub Token?
-
-It isn't necessary to use a GitHub token but, by default, unauthenticated requests to the GitHub API are limited to 60 requests per hour per IP. If surpassed, scout will fail to analyze dependencies and return unexpected errors. <br/>
-If you include a GitHub token, your request limit increases to 5000 requests per hour, which is especially useful if you are scanning large or multiple repositories. (Scout makes a request for every dependency file or every 50 dependencies detected) <br/>
-<br/>
-A GitHub App token that is owned by a GitHub Enterprise Cloud has a even bigger limit of 15000 requests per hour.<br/>
-<br/>
-https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+| `-latest` | Fetch the latest Scout database instead of using the bundled one	 | `false` | `-latest` |
 
 ### Example
 Scan current directory for all ecosystems, without excluding any subdirectories and files
@@ -63,21 +54,22 @@ Scan current directory for only maven dependencies
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest -ecosystems maven .
 ```
-Export results to default scout_report.json
+Fetch the latest Scout database
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -ecosystems maven -export .
+docker run --rm -v "${PWD}:/scan" scout:latest -latest .
 ```
 Export results to defect dojo format
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -ecosystems maven -export -format dojo .
+docker run --rm -v "${PWD}:/scan" scout:latest -format dojo .
+```
+Export results to html file
+```bash
+docker run --rm -v "${PWD}:/scan" scout:latest -format html -output custom_report.html
+
 ```
 Exclude subdirectories or files
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest -exclude tests,package-lock.json .
-```
-Use GitHub token
-```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -token ghp_123abc12rasdasdsa .
 ```
 ## Architecture
 Scout is built using a modular, dependency injection-based architecture that allows for easy extension and customization:
@@ -103,7 +95,7 @@ Scout is built using a modular, dependency injection-based architecture that all
 - Validation of transitive dependencies (dependencies of dependencies)  
 - SBOM (Software Bill of Materials) analyzer/generator  
 - Reachability analysis
-- Typo Squatting analysis 
+
 
 
 
