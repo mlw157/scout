@@ -41,8 +41,19 @@ func ParseRequirementsFile(fileData *FileData) ([]models.Dependency, error) {
 
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		if line == "" || strings.HasPrefix(line, "#") {
-			continue // skip empty and commented
+		if line == "" {
+			continue
+		}
+
+		// remove comments
+		if idx := strings.IndexByte(line, '#'); idx >= 0 {
+			line = strings.TrimSpace(line[:idx])
+			if line == "" {
+				continue
+			}
+		}
+		if strings.HasPrefix(line, "#") {
+			continue
 		}
 
 		split := strings.Split(line, "==")
