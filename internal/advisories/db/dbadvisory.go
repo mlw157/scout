@@ -7,6 +7,7 @@ import (
 	"github.com/mlw157/scout/internal/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"io"
 	"log"
 	"net/http"
@@ -83,6 +84,7 @@ func (d *DatabaseAdvisoryService) FetchVulnerabilities(dependencies []models.Dep
 	for _, dependency := range dependencies {
 		var advisories []Advisory
 
+		d.DB.Config.Logger = logger.Default.LogMode(logger.Error)
 		result := d.DB.Where("ecosystem = ? AND package = ?", dependency.Ecosystem, dependency.Name).Find(&advisories)
 		if result.Error != nil {
 			return nil, fmt.Errorf("advisory: query failed: %w", result.Error)
@@ -155,7 +157,7 @@ func IsVersionVulnerable(version, versionRange string) bool {
 
 	ver, err := semver.NewVersion(cleanVersion)
 	if err != nil {
-		fmt.Printf("advisory: error parsing dependency version %s: %v\n", cleanVersion, err)
+		log.Printf("advisory: error parsing dependency version %s: %v\n", cleanVersion, err)
 		return false
 	}
 
