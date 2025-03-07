@@ -153,7 +153,6 @@ func (h *HTMLEXporter) Export(results []*models.ScanResult) error {
     </body>
     </html>`
 
-	// Create a template
 	t, err := template.New("report").Parse(htmlTemplate)
 	if err != nil {
 		return fmt.Errorf("failed to parse HTML template: %v", err)
