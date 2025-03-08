@@ -68,7 +68,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 				log.Printf("Scanning %v\n", file.Path)
 				scanResult, err := s.ScanFile(f.Path)
 				if err != nil {
-					log.Printf("Error scanning file %s: %v\n", f.Path, err)
+					log.Printf("Could not scan file %s: %v\n", f.Path, err)
 					return
 				}
 
@@ -92,7 +92,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 			s := e.scanners[file.Ecosystem]
 			scanResult, err := s.ScanFile(file.Path)
 			if err != nil {
-				log.Printf("Error scanning file %s: %v\n", file.Path, err)
+				log.Printf("\"Could not scan file %s: %v\n", file.Path, err)
 				continue
 			}
 			scanResults = append(scanResults, scanResult)
@@ -100,6 +100,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	}
 
 	if e.config.Exporter != nil {
+		log.Printf("Expo")
 		if err := e.config.Exporter.Export(scanResults); err != nil {
 			return nil, fmt.Errorf("failed to export results: %v", err)
 		}

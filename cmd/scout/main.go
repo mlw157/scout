@@ -100,6 +100,7 @@ func main() {
 		log.Printf("Will export results in JSON format to %s\n", outputFile)
 	}
 
+	log.Println("────────────────────────────────────────")
 	scanEngine := engine.NewEngine(detector, config)
 
 	scanResults, err := scanEngine.Scan(rootDir)

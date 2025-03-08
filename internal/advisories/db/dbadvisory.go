@@ -157,7 +157,7 @@ func IsVersionVulnerable(version, versionRange string) bool {
 
 	ver, err := semver.NewVersion(cleanVersion)
 	if err != nil {
-		log.Printf("advisory: error parsing dependency version %s: %v\n", cleanVersion, err)
+		log.Printf("skipping dependency version %s: %v\n", cleanVersion, err)
 		return false
 	}
 
@@ -171,7 +171,7 @@ func IsVersionVulnerable(version, versionRange string) bool {
 		normalizedConstraint := re.ReplaceAllStringFunc(fixedConstraint, func(match string) string {
 			normalized, err := normalizeVersion(match)
 			if err != nil {
-				log.Printf("advisory: error normalizing version %s: %v\n", match, err)
+				log.Printf("could not normalize version %s: %v\n", match, err)
 				return match
 			}
 			return normalized
