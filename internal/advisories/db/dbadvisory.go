@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -22,21 +23,42 @@ type DatabaseAdvisoryService struct {
 }
 
 const databaseURL = "https://github.com/mlw157/scout-db/raw/main/scout.db"
+const databasePath = "~/.cache/scout/db/scout.db"
 
-func ensureDatabaseExists(databasePath string) error {
-	if _, err := os.Stat(databasePath); os.IsNotExist(err) {
+func getHomePath() (string, error) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return "", fmt.Errorf("failed to get user home directory: %w", err)
+	}
+	return homeDir, nil
+}
+
+func ensureDatabaseExists() error {
+	homePath, err := getHomePath()
+	if err != nil {
+		return err
+	}
+	expandedPath := filepath.Join(homePath, databasePath[2:]) // remove the ~ and append the rest
+
+	if _, err := os.Stat(expandedPath); os.IsNotExist(err) {
 		log.Printf("Database not found. Downloading...\n")
 
-		err := downloadDatabase(databasePath)
+		err := downloadDatabase(expandedPath)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
-
 func downloadDatabase(databasePath string) error {
 	log.Printf("Downloading the latest vulnerability database...\n")
+
+	dir := filepath.Dir(databasePath)
+	err := os.MkdirAll(dir, os.ModePerm) // Create the directory if it doesn't exist
+	if err != nil {
+		return fmt.Errorf("failed to create directory: %w", err)
+	}
 
 	resp, err := http.Get(databaseURL)
 	if err != nil {
@@ -63,19 +85,25 @@ func downloadDatabase(databasePath string) error {
 	return nil
 }
 
-func NewDatabaseAdvisoryService(databasePath string, update bool) (*DatabaseAdvisoryService, error) {
+func NewDatabaseAdvisoryService(update bool) (*DatabaseAdvisoryService, error) {
+	homePath, err := getHomePath()
+	if err != nil {
+		return nil, err
+	}
+	expandedPath := filepath.Join(homePath, databasePath[2:]) // remove the '~/' and append the rest
+
 	if update {
-		if err := downloadDatabase(databasePath); err != nil {
+		if err := downloadDatabase(expandedPath); err != nil {
 			return nil, err
 		}
 	}
 
-	err := ensureDatabaseExists(databasePath)
+	err = ensureDatabaseExists()
 	if err != nil {
 		return nil, err
 	}
 
-	db, err := gorm.Open(sqlite.Open(databasePath), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(expandedPath), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("advisory: failed to connect to database: %w", err)
 	}
@@ -171,7 +199,7 @@ func IsVersionVulnerable(version, versionRange string) bool {
 
 	ver, err := semver.NewVersion(cleanVersion)
 	if err != nil {
-		log.Printf("skipping dependency version %s: %v\n", cleanVersion, err)
+		log.Printf("Skipping dependency version %s: %v\n", cleanVersion, err)
 		return false
 	}
 
@@ -185,7 +213,7 @@ func IsVersionVulnerable(version, versionRange string) bool {
 		normalizedConstraint := re.ReplaceAllStringFunc(fixedConstraint, func(match string) string {
 			normalized, err := normalizeVersion(match)
 			if err != nil {
-				log.Printf("could not normalize version %s: %v\n", match, err)
+				log.Printf("Could not normalize version %s: %v\n", match, err)
 				return match
 			}
 			return normalized
