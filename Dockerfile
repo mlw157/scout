@@ -21,9 +21,6 @@ WORKDIR /scan
 
 COPY --from=builder /app/cmd/scout/scout /usr/local/bin/scout
 
-# temp
-COPY --from=builder /app/cmd/scout/scout.db /scout.db
-
 
 RUN chmod +x /usr/local/bin/scout
 

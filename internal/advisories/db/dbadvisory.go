@@ -23,6 +23,18 @@ type DatabaseAdvisoryService struct {
 
 const databaseURL = "https://github.com/mlw157/scout-db/raw/main/scout.db"
 
+func ensureDatabaseExists(databasePath string) error {
+	if _, err := os.Stat(databasePath); os.IsNotExist(err) {
+		log.Printf("Database not found. Downloading...\n")
+
+		err := downloadDatabase(databasePath)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func downloadDatabase(databasePath string) error {
 	log.Printf("Downloading the latest vulnerability database...\n")
 
@@ -57,8 +69,10 @@ func NewDatabaseAdvisoryService(databasePath string, update bool) (*DatabaseAdvi
 			return nil, err
 		}
 	}
-	if _, err := os.Stat(databasePath); os.IsNotExist(err) {
-		return nil, fmt.Errorf("advisory: database file %s does not exist", databasePath)
+
+	err := ensureDatabaseExists(databasePath)
+	if err != nil {
+		return nil, err
 	}
 
 	db, err := gorm.Open(sqlite.Open(databasePath), &gorm.Config{})

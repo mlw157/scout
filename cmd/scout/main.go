@@ -30,7 +30,7 @@ func main() {
 	outputFileFlag := flag.String("output", "", "Output file path (defaults to scout_report.[format])")
 	tokenFlag := flag.String("token", "", "GitHub token for authenticated API requests (optional and deprecated)")
 	sequentialFlag := flag.Bool("sequential", false, "Processes each file individually without concurrent execution (not recommended)")
-	latestFlag := flag.Bool("latest", false, "Download and use the latest version of scout database")
+	updateFlag := flag.Bool("update-db", false, "Download and use the latest version of scout database")
 
 	flag.Parse()
 
@@ -71,7 +71,7 @@ func main() {
 		ExcludeFiles:   excludeDirs,
 		Token:          *tokenFlag,
 		SequentialMode: *sequentialFlag,
-		LatestMode:     *latestFlag,
+		LatestMode:     *updateFlag,
 		DatabasePath:   "/scout.db",
 	}
 
