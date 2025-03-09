@@ -94,6 +94,13 @@ func TestPatterns(t *testing.T) {
 			filename: "package.json",
 			want:     true,
 		},
+
+		{
+			name:     "yarn.lock should match",
+			pattern:  detectors.NpmPattern,
+			filename: "yarn.lock",
+			want:     true,
+		},
 	}
 
 	for _, tc := range testCases {

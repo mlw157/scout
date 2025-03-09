@@ -1,6 +1,8 @@
 package npmparser
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"github.com/mlw157/scout/internal/models"
@@ -8,8 +10,7 @@ import (
 	"strings"
 )
 
-type NodeParser struct {
-}
+type NodeParser struct{}
 
 func NewNodeParser() *NodeParser {
 	return &NodeParser{}
@@ -20,7 +21,6 @@ type FileData struct {
 	Data []byte
 }
 
-// ReadFile returns data of file given path
 func ReadFile(path string) (*FileData, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -52,8 +52,6 @@ func ParsePackageJSON(fileData *FileData) ([]models.Dependency, error) {
 			Ecosystem: "npm",
 		})
 	}
-
-	// in case we want to differentiate dev dependencies in the future, for now add to same slice
 	for name, version := range packageJSON.DevDependencies {
 		dependencies = append(dependencies, models.Dependency{
 			Name:      name,
@@ -61,7 +59,6 @@ func ParsePackageJSON(fileData *FileData) ([]models.Dependency, error) {
 			Ecosystem: "npm",
 		})
 	}
-
 	return dependencies, nil
 }
 
@@ -71,10 +68,8 @@ type PackageLockJSON struct {
 }
 
 type PackageLockPackage struct {
-	Name            string            `json:"name,omitempty"`
-	Version         string            `json:"version"`
-	Dependencies    map[string]string `json:"dependencies,omitempty"`
-	DevDependencies map[string]string `json:"devDependencies,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Version string `json:"version"`
 }
 
 func ParsePackageLockJSON(fileData *FileData) ([]models.Dependency, error) {
@@ -87,17 +82,63 @@ func ParsePackageLockJSON(fileData *FileData) ([]models.Dependency, error) {
 
 	for path, pkg := range packageLock.Packages {
 		name := strings.TrimPrefix(path, "node_modules/")
-
-		// Skip if there's no version (shouldn't happen in valid package-lock.json)
 		if pkg.Version == "" {
 			continue
 		}
-
 		dependencies = append(dependencies, models.Dependency{
 			Name:      name,
 			Version:   pkg.Version,
 			Ecosystem: "npm",
 		})
+	}
+	return dependencies, nil
+}
+
+func ParseYarnLock(fileData *FileData) ([]models.Dependency, error) {
+	var dependencies []models.Dependency
+	scanner := bufio.NewScanner(bytes.NewReader(fileData.Data))
+
+	// track the current package being processed
+	var currentPackage string
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		// package lines end with :
+		if strings.HasSuffix(line, ":") {
+			// extract the package name from between quotes if present
+			packageLine := strings.Trim(line[:len(line)-1], "\"")
+
+			if idx := strings.LastIndex(packageLine, "@"); idx > 0 {
+				if packageLine[0] == '@' {
+					secondAt := strings.Index(packageLine[1:], "@")
+					if secondAt > 0 {
+						currentPackage = packageLine[:secondAt+1] // +1 because we started at index 1
+					} else {
+						currentPackage = packageLine
+					}
+				} else {
+					currentPackage = packageLine[:idx]
+				}
+			} else {
+				currentPackage = packageLine
+			}
+		} else if strings.HasPrefix(line, "  version ") {
+			if currentPackage != "" {
+				version := strings.Trim(strings.TrimPrefix(line, "  version "), "\"")
+
+				dependencies = append(dependencies, models.Dependency{
+					Name:      currentPackage,
+					Version:   version,
+					Ecosystem: "npm",
+				})
+				currentPackage = ""
+			}
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
 	}
 
 	return dependencies, nil
@@ -111,20 +152,19 @@ func (n *NodeParser) ParseFile(path string) ([]models.Dependency, error) {
 
 	var dependencies []models.Dependency
 
-	// decide to use package.json or package-lock.json parser
-	if strings.HasSuffix(path, "package.json") {
+	switch {
+	case strings.HasSuffix(path, "package.json"):
 		dependencies, err = ParsePackageJSON(fileData)
-
-	} else if strings.HasSuffix(path, "package-lock.json") {
+	case strings.HasSuffix(path, "package-lock.json"):
 		dependencies, err = ParsePackageLockJSON(fileData)
-
-	} else {
+	case strings.HasSuffix(path, "yarn.lock"):
+		dependencies, err = ParseYarnLock(fileData)
+	default:
 		return nil, errors.New("unsupported file type")
 	}
 
 	if err != nil {
 		return nil, err
 	}
-
 	return dependencies, nil
 }

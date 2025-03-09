@@ -43,5 +43,24 @@ func TestParsePackageLockFile(t *testing.T) {
 		}
 
 	})
+}
 
+func TestParseYarnLockFile(t *testing.T) {
+	t.Run("test extract correct number of dependencies", func(t *testing.T) {
+		testFile := testFilePath + "yarn.lock"
+		data, _ := npmparser.ReadFile(testFile)
+		dependencies, _ := npmparser.ParseYarnLock(data)
+
+		//for _, dependency := range dependencies {
+		//	fmt.Println(dependency)
+		//}
+
+		got := len(dependencies)
+		want := 287
+
+		if got != want {
+			t.Errorf("got %d want %d", got, want)
+		}
+
+	})
 }
