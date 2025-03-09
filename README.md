@@ -63,6 +63,9 @@ scout -exclude node_modules,testfolder .
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest [flags] .
 ```
+
+  > **Note**: When importing to results to DefectDojo, use Generic Findings Import scan type.
+
 ## Architecture
 Scout is built using a modular, dependency injection-based architecture that allows for easy extension and customization:
 
