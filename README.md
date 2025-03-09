@@ -43,7 +43,7 @@ Once the image is pulled or built, you can run scout inside a Docker container.
 | `-exclude` | File/Directory patterns to exclude | - | `-exclude node_modules,.git` |
 | `-format` | Export format (options: dojo, html, json) | `json` | `-format dojo` |
 | `-output` | Output file path | `[format]` | `-output custom_report.json` |
-| `-latest` | Fetch the latest Scout database instead of using the bundled one	 | `false` | `-latest` |
+| `-update-db` | Fetch the latest Scout database| `false` | `-update-db` |
 
 ### Example
 Scan current directory for all ecosystems, without excluding any subdirectories and files
