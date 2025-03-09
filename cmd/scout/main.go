@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/mlw157/scout/internal/detectors/filesystem"
 	"github.com/mlw157/scout/internal/engine"
 	"github.com/mlw157/scout/internal/exporters/dojoexporter"
@@ -22,7 +21,12 @@ func main() {
 /____/\___/\____/\__,_/\__/
 
 `
-	fmt.Printf(art)
+	originalFlags := log.Flags()
+	log.SetFlags(0)
+
+	log.Printf(art)
+
+	log.SetFlags(originalFlags)
 
 	ecosystemsFlag := flag.String("ecosystems", "", "Comma-separated list of ecosystems to scan (e.g., go,pip,maven)")
 	excludeDirsFlag := flag.String("exclude", "", "Comma-separated list of directory and file names to exclude (e.g., node_modules,.git,requirements-dev.txt)")
