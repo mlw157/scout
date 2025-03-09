@@ -113,7 +113,7 @@ jobs:
               -F 'active=true' \
               -F 'verified=false' \
               -F 'scan_type=Generic Findings Import' \
-              -F 'file=dojo.json;type=application/json' \
+              -F 'file=@dojo.json;type=application/json' \
               -F 'engagement=1' \
               -F 'close_old_findings=true' \
               -F 'push_to_jira=false'
