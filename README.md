@@ -10,31 +10,20 @@ Scout is a lightweight Software Composition Analysis (SCA) tool. It analyzes you
 **Composer**: Scans composer.json and composer.lock files for vulnerabilities in composer dependencies.<br/>
 
 ## Installation
-### Option 1: Pull the Docker Image from GitHub Container Registry
-
-If you want to quickly use scout without building it from the source, you can pull the pre-built Docker image directly from the GitHub Container Registry.
+### Docker
 
 ```bash
-docker pull ghcr.io/mlw157/scout:latest
+docker pull ghcr.io/mlw157/scout:latest && docker tag ghcr.io/mlw157/scout:latest scout:latest
 ```
+### Binary releases
 ```bash
-docker tag ghcr.io/mlw157/scout:latest scout:latest
-```
-### Option 2: Build from Source
-
-If you prefer building the Docker image locally: <br/>
-<br/>
-Clone the repository to your local machine:
-```bash
-git clone https://github.com/mlw157/scout.git
-cd scout
-```
-Build the Docker image locally:
-```bash
-docker build -t scout:latest .
+Download and unpack from https://github.com/mlw157/scout/releases
 ```
 ## Usage
-Once the image is pulled or built, you can run scout inside a Docker container.
+Once you’ve downloaded the precompiled binary or built the image, you can run Scout directly from the command line.
+### Database Storage
+Scout stores its database in the ~/.cache/scout/db directory by default. If the database is not found or is missing, Scout will automatically download the required database files. <br/>
+You can manually update the database using the ```-update-db``` flag if needed.
 ### Command-Line Flags
 
 | Flag | Description | Default | Example |
@@ -46,29 +35,33 @@ Once the image is pulled or built, you can run scout inside a Docker container.
 | `-update-db` | Fetch the latest Scout database| `false` | `-update-db` |
 
 ### Example
-Scan current directory for all ecosystems, without excluding any subdirectories and files
+Default
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest .
+scout .
 ```
 Scan current directory for only maven dependencies
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -ecosystems maven .
+scout -ecosystems maven .
 ```
 Fetch the latest Scout database
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -latest .
+scout -update-db .
 ```
 Export results to defect dojo format
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -format dojo .
+scout -format dojo .
 ```
-Export results to html file
+Export results with a custom report name
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -format html -output custom_report.html .
+scout -format html -output custom_name.html .
 ```
 Exclude subdirectories or files
 ```bash
-docker run --rm -v "${PWD}:/scan" scout:latest -exclude tests,package-lock.json .
+scout -exclude node_modules,testfolder .
+```
+**Running via Docker**
+```bash
+docker run --rm -v "${PWD}:/scan" scout:latest [flags] .
 ```
 ## Architecture
 Scout is built using a modular, dependency injection-based architecture that allows for easy extension and customization:
