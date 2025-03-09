@@ -63,8 +63,61 @@ scout -exclude node_modules,testfolder .
 ```bash
 docker run --rm -v "${PWD}:/scan" scout:latest [flags] .
 ```
-
-  > **Note**: When importing to results to DefectDojo, use Generic Findings Import scan type.
+### GitHub Actions Example
+**Run Scout**
+```bash
+name: "Scout"
+on:
+  workflow_dispatch:
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Get Scout
+        run: |
+          curl -LO "https://github.com/mlw157/scout/releases/download/v0.1.1/scout-linux-amd64.tar.gz"
+          tar xvzf scout-linux-amd64.tar.gz
+          rm scout-linux-amd64.tar.gz
+          
+      - name: Run Scout
+        run: ./scout -exclude node_modules .
+```
+**Send results to DefectDojo**
+```bash
+name: "Scout to Dojo"
+on:
+  workflow_dispatch:
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Get Scout
+        run: |
+          curl -LO "https://github.com/mlw157/scout/releases/download/v0.1.1/scout-linux-amd64.tar.gz"
+          tar xvzf scout-linux-amd64.tar.gz
+          rm scout-linux-amd64.tar.gz
+          
+      - name: Run Scout
+        run: ./scout -exclude node_modules -format dojo -output dojo.json .
+      - name: Send to Dojo
+        run: |
+            curl -X POST 'https://your-dojo-endpoint.com/api/v2/import-scan/' \
+              -H 'accept: application/json' \
+              -H 'Authorization: Token ${{ secrets.DOJO_TOKEN }}' \
+              -H 'Content-Type: multipart/form-data' \
+              -F 'minimum_severity=Info' \
+              -F 'active=true' \
+              -F 'verified=false' \
+              -F 'scan_type=Generic Findings Import' \
+              -F 'file=dojo.json;type=application/json' \
+              -F 'engagement=1' \
+              -F 'close_old_findings=true' \
+              -F 'push_to_jira=false'
+```
 
 ## Architecture
 Scout is built using a modular, dependency injection-based architecture that allows for easy extension and customization:
