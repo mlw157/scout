@@ -99,7 +99,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 	}
 
 	if e.config.Exporter != nil {
-		log.Printf("Expo")
+		log.Printf("Exporting")
 		if err := e.config.Exporter.Export(scanResults); err != nil {
 			return nil, fmt.Errorf("failed to export results: %v", err)
 		}
