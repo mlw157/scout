@@ -77,7 +77,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Get Scout
         run: |
-          curl -LO "https://github.com/mlw157/scout/releases/download/v0.1.1/scout-linux-amd64.tar.gz"
+          curl -LO "https://github.com/mlw157/scout/releases/download/v0.1.2/scout-linux-amd64.tar.gz"
           tar xvzf scout-linux-amd64.tar.gz
           rm scout-linux-amd64.tar.gz
           
@@ -97,7 +97,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Get Scout
         run: |
-          curl -LO "https://github.com/mlw157/scout/releases/download/v0.1.1/scout-linux-amd64.tar.gz"
+          curl -LO "https://github.com/mlw157/scout/releases/download/v0.1.2/scout-linux-amd64.tar.gz"
           tar xvzf scout-linux-amd64.tar.gz
           rm scout-linux-amd64.tar.gz
           
