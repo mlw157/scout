@@ -35,7 +35,7 @@ func (d *DojoExporter) Export(results []*models.ScanResult) error {
 	}
 	defer file.Close()
 
-	var dojoFindings []DojoFinding
+	dojoFindings := make([]DojoFinding, 0)
 
 	for _, result := range results {
 		for _, vulnerability := range result.Vulnerabilities {
