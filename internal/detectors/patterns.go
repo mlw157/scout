@@ -11,7 +11,7 @@ type FilePattern struct {
 var (
 	RubyPattern     = FilePattern{Regex: regexp.MustCompile(`^Gemfile\.lock$`), Ecosystem: "gem"}
 	RustPattern     = FilePattern{Regex: regexp.MustCompile(`^Cargo\.lock$`), Ecosystem: "crates.io"}
-	GoPattern       = FilePattern{Regex: regexp.MustCompile(`^go.mod$`), Ecosystem: "go"}
+	GoPattern       = FilePattern{Regex: regexp.MustCompile(`^go.mod$`), Ecosystem: "Go"}
 	MavenPattern    = FilePattern{Regex: regexp.MustCompile(`^pom.xml$`), Ecosystem: "maven"}
 	PipPattern      = FilePattern{Regex: regexp.MustCompile(`^requirements[-.0-9A-Za-z]*\.txt$`), Ecosystem: "pip"}
 	NpmPattern      = FilePattern{Regex: regexp.MustCompile(`^(package(-lock)?\.json|yarn\.lock)$`), Ecosystem: "npm"}
@@ -22,7 +22,7 @@ var (
 var DefaultFilePatterns = map[string]FilePattern{
 	"gem":       RubyPattern,
 	"crates.io": RustPattern,
-	"go":        GoPattern,
+	"Go":        GoPattern,
 	"maven":     MavenPattern,
 	"pip":       PipPattern,
 	"npm":       NpmPattern,

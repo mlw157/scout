@@ -8,16 +8,13 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN apk --no-cache add build-base
 
-ENV CGO_ENABLED=1
+ENV CGO_ENABLED=0
 WORKDIR /app/cmd/scout
 
 RUN go build -ldflags="-s -w -X main.version=${VERSION}" -o scout
 
 FROM alpine:3.21
-
-RUN apk --no-cache add libgcc
 
 WORKDIR /scan
 

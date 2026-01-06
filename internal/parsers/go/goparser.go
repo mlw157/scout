@@ -2,9 +2,10 @@ package goparser
 
 import (
 	"errors"
+	"os"
+
 	"github.com/mlw157/scout/internal/models"
 	"golang.org/x/mod/modfile"
-	"os"
 )
 
 type GoParser struct {
@@ -42,7 +43,7 @@ func ParseModFile(fileData *FileData) (dependencies []models.Dependency, err err
 		dependencies = append(dependencies, models.Dependency{
 			Name:      req.Mod.Path,
 			Version:   req.Mod.Version,
-			Ecosystem: "go",
+			Ecosystem: "Go",
 		})
 	}
 	return dependencies, nil

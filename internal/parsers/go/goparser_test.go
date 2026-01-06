@@ -1,9 +1,10 @@
 package goparser_test
 
 import (
-	"github.com/mlw157/scout/internal/models"
-	"github.com/mlw157/scout/internal/parsers/go"
 	"testing"
+
+	"github.com/mlw157/scout/internal/models"
+	goparser "github.com/mlw157/scout/internal/parsers/go"
 )
 
 const testFilePath = "../../../testcases/parsers/go/"
@@ -48,8 +49,8 @@ func TestParseModFile(t *testing.T) {
 		data, _ := goparser.ReadFile(testFile)
 		dependencies, _ := goparser.ParseModFile(data)
 
-		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Ecosystem: "go"})
-		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Ecosystem: "go"})
+		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "cloud.google.com/go/secretmanager", Version: "v1.14.2", Ecosystem: "Go"})
+		assertEqualDependency(t, dependencies[10], models.Dependency{Name: "github.com/cespare/xxhash/v2", Version: "v2.3.0", Ecosystem: "Go"})
 
 	})
 

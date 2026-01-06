@@ -3,11 +3,6 @@ package db
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Masterminds/semver"
-	"github.com/mlw157/scout/internal/models"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"io"
 	"log"
 	"net/http"
@@ -15,6 +10,12 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/Masterminds/semver"
+	"github.com/glebarez/sqlite"
+	"github.com/mlw157/scout/internal/models"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type DatabaseAdvisoryService struct {

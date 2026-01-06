@@ -114,12 +114,23 @@ func main() {
 		fmt.Println("⚠️  Warning: --token flag is deprecated and will be removed in a future version")
 	}
 
-	// Parse ecosystems
+	// Parse ecosystems and normalize to canonical names
+	ecosystemAliases := map[string]string{
+		"ruby": "gem",
+		"rust": "crates.io",
+		"go":   "Go",
+	}
 	var ecosystems []string
 	if ecosystemsFlag != "" {
-		ecosystems = strings.Split(ecosystemsFlag, ",")
+		for _, eco := range strings.Split(ecosystemsFlag, ",") {
+			eco = strings.TrimSpace(eco)
+			if canonical, ok := ecosystemAliases[eco]; ok {
+				eco = canonical
+			}
+			ecosystems = append(ecosystems, eco)
+		}
 	} else {
-		ecosystems = []string{"go", "maven", "pip", "npm", "composer", "ruby", "rust"}
+		ecosystems = []string{"Go", "maven", "pip", "npm", "composer", "gem", "crates.io"}
 	}
 
 	// Parse exclude directories
@@ -155,7 +166,7 @@ func main() {
 		"json":  ".json",
 		"dojo":  ".json",
 		"html":  ".html",
-		"sarif": ".sarif.json",
+		"sarif": ".sarif",
 	}
 	ext := formatExtensions[exportFormatFlag]
 
@@ -168,7 +179,7 @@ func main() {
 		case "html":
 			outputFile = "scout_report.html"
 		case "sarif":
-			outputFile = "scout_report.sarif.json"
+			outputFile = "scout_report.sarif"
 		default:
 			outputFile = "scout_report.json"
 		}

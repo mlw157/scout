@@ -27,7 +27,7 @@ func (f *ScannerFactory) CreateScanner(ecosystem string, advisory advisories.Adv
 		return scanner.NewScanner(rubyparser.NewRubyParser(), advisory), nil
 	case "crates.io":
 		return scanner.NewScanner(rustparser.NewRustParser(), advisory), nil
-	case "go":
+	case "Go":
 		return scanner.NewScanner(goparser.NewGoParser(), advisory), nil
 	case "maven":
 		return scanner.NewScanner(mavenparser.NewMavenParser(), advisory), nil

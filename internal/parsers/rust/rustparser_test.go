@@ -20,7 +20,7 @@ func TestParseCargoLock(t *testing.T) {
 		}
 
 		got := len(dependencies)
-		want := 2
+		want := 5
 
 		if got != want {
 			t.Errorf("got %d want %d", got, want)
@@ -32,8 +32,8 @@ func TestParseCargoLock(t *testing.T) {
 		parser := rustparser.NewRustParser()
 		dependencies, _ := parser.ParseFile(testFile)
 
-		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "serde", Version: "1.0.193", Ecosystem: "rust"})
-		assertEqualDependency(t, dependencies[1], models.Dependency{Name: "tokio", Version: "1.35.0", Ecosystem: "rust"})
+		assertEqualDependency(t, dependencies[0], models.Dependency{Name: "hyper", Version: "0.14.18", Ecosystem: "crates.io"})
+		assertEqualDependency(t, dependencies[1], models.Dependency{Name: "regex", Version: "1.5.4", Ecosystem: "crates.io"})
 	})
 
 	t.Run("test file with no dependencies", func(t *testing.T) {
