@@ -8,7 +8,7 @@ Scout is a lightweight Software Composition Analysis (SCA) tool. It analyzes you
 
 **Maven**: Scans pom.xml files for vulnerabilities in Maven dependencies.
 
-**Python**: Scans requirements.txt files for vulnerabilities in pip dependencies.
+**Python**: Scans requirements.txt and poetry.lock files for vulnerabilities in pip dependencies.
 
 **NPM**: Scans package.json, package-lock.json and yarn.lock files for vulnerabilities in npm dependencies.
 
@@ -208,6 +208,7 @@ scout --sbom-only spdx -e go,npm .
 ### SBOM Output
 
 The generated SBOM includes:
+
 - All detected dependencies with name and version
 - Package URLs (PURL) for each dependency
 - Metadata (timestamp, tool info, document identifiers)

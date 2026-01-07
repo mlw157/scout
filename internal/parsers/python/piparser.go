@@ -3,9 +3,11 @@ package pythonparser
 import (
 	"bufio"
 	"errors"
-	"github.com/mlw157/scout/internal/models"
 	"os"
 	"strings"
+
+	"github.com/BurntSushi/toml"
+	"github.com/mlw157/scout/internal/models"
 )
 
 type PipParser struct {
@@ -20,7 +22,6 @@ func NewPipParser() *PipParser {
 	return &PipParser{}
 }
 
-// ReadFile returns data of file given path
 func ReadFile(path string) (*FileData, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -33,7 +34,6 @@ func ReadFile(path string) (*FileData, error) {
 	}, nil
 }
 
-// ParseRequirementsFile extracts all dependencies from a requirements.txt file
 func ParseRequirementsFile(fileData *FileData) ([]models.Dependency, error) {
 	var dependencies []models.Dependency
 
@@ -77,13 +77,52 @@ func ParseRequirementsFile(fileData *FileData) ([]models.Dependency, error) {
 	return dependencies, nil
 }
 
+type PoetryLock struct {
+	Package []PoetryPackage `toml:"package"`
+}
+
+type PoetryPackage struct {
+	Name    string `toml:"name"`
+	Version string `toml:"version"`
+}
+
+func ParsePoetryLock(fileData *FileData) ([]models.Dependency, error) {
+	var poetryLock PoetryLock
+	var dependencies []models.Dependency
+
+	if err := toml.Unmarshal(fileData.Data, &poetryLock); err != nil {
+		return nil, errors.New("invalid poetry.lock file format")
+	}
+
+	for _, pkg := range poetryLock.Package {
+		if pkg.Name == "" || pkg.Version == "" {
+			continue
+		}
+		dependencies = append(dependencies, models.Dependency{
+			Name:      pkg.Name,
+			Version:   pkg.Version,
+			Ecosystem: "pip",
+		})
+	}
+
+	return dependencies, nil
+}
+
 func (g *PipParser) ParseFile(path string) ([]models.Dependency, error) {
 	fileData, err := ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
 
-	dependencies, err := ParseRequirementsFile(fileData)
+	var dependencies []models.Dependency
+
+	switch {
+	case strings.HasSuffix(path, "poetry.lock"):
+		dependencies, err = ParsePoetryLock(fileData)
+	default:
+		// Handle requirements.txt and similar files
+		dependencies, err = ParseRequirementsFile(fileData)
+	}
 
 	if err != nil {
 		return nil, err

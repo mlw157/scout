@@ -13,7 +13,7 @@ var (
 	RustPattern     = FilePattern{Regex: regexp.MustCompile(`^Cargo\.lock$`), Ecosystem: "crates.io"}
 	GoPattern       = FilePattern{Regex: regexp.MustCompile(`^go.mod$`), Ecosystem: "Go"}
 	MavenPattern    = FilePattern{Regex: regexp.MustCompile(`^pom.xml$`), Ecosystem: "maven"}
-	PipPattern      = FilePattern{Regex: regexp.MustCompile(`^requirements[-.0-9A-Za-z]*\.txt$`), Ecosystem: "pip"}
+	PipPattern      = FilePattern{Regex: regexp.MustCompile(`^(requirements[-.0-9A-Za-z]*\.txt|poetry\.lock)$`), Ecosystem: "pip"}
 	NpmPattern      = FilePattern{Regex: regexp.MustCompile(`^(package(-lock)?\.json|yarn\.lock)$`), Ecosystem: "npm"}
 	ComposerPattern = FilePattern{Regex: regexp.MustCompile(`^composer\.(lock|json)$`), Ecosystem: "composer"}
 )
