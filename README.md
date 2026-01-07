@@ -51,6 +51,9 @@ You can manually update the database using the `--update-db` flag if needed.
 | `--exclude` | `-x` | File/Directory patterns to exclude | - | `-x node_modules,.git` |
 | `--format` | `-f` | Export format (json, html, sarif, dojo) | `json` | `-f html` |
 | `--output` | `-o` | Output file path (extension auto-added) | `scout_report.[ext]` | `-o results` |
+| `--sbom` | | Generate SBOM + run vulnerability scan (cyclonedx, spdx) | - | `--sbom cyclonedx` |
+| `--sbom-only` | | Generate SBOM only, skip vulnerability scan (cyclonedx, spdx) | - | `--sbom-only spdx` |
+| `--sbom-output` | | SBOM output file path | `sbom.[format].json` | `--sbom-output my-sbom.json` |
 | `--update-db` | | Fetch the latest Scout database | `false` | `--update-db` |
 | `--version` | `-v` | Print version and exit | | `-v` |
 | `--help` | `-h` | Show help message | | `-h` |
@@ -75,6 +78,18 @@ scout -f html -o my_report .
 
 # Exclude directories or files
 scout -x node_modules,testfolder .
+
+# Generate SBOM only (no vulnerability scan)
+scout --sbom-only cyclonedx .
+
+# Generate SBOM in SPDX format (no vulnerability scan)
+scout --sbom-only spdx .
+
+# Run vulnerability scan AND generate SBOM
+scout --sbom cyclonedx .
+
+# SBOM with custom output filename
+scout --sbom-only spdx --sbom-output my-project-sbom.json .
 ```
 
 Running via Docker:
@@ -158,13 +173,47 @@ Scout is built using a modular, dependency injection-based architecture that all
 - **Parser**: Parsers are responsible for analyzing dependency files and extracting dependencies. (e.g GoParser, MavenParser, NpmParser)
 - **Advisory**: Advisories are services that analyze dependencies to identify vulnerabilities. (e.g GitHub Advisory Database, Snyk Vulnerability Database, NIST Vulnerability Database)
 - **Detector**: Detectors are responsible for finding dependency files to scan. (e.g Filesystem Detector, GitRepositoryDetector)
-- **Exporter**: Exporters take the scan results and present them in the desired format. (e.g JSONExporter, HTMLExporter, CSVExporter)
+- **Exporter**: Exporters take the scan results and present them in the desired format. (e.g JSONExporter, HTMLExporter, SARIFExporter)
+- **SBOM Generator**: Generators create Software Bill of Materials in standard formats. (e.g CycloneDX, SPDX)
 
 > **Note**: Some examples listed above are theoretical and not yet implemented. They are provided to illustrate potential future extensions of the system.
+
+## SBOM Generation
+
+Scout can generate Software Bill of Materials (SBOM) in industry-standard formats:
+
+### Supported Formats
+
+| Format | Spec Version | Output File | Use Case |
+| --- | --- | --- | --- |
+| **CycloneDX** | 1.5 | `sbom.cdx.json` | Security-focused, lightweight |
+| **SPDX** | 2.3 | `sbom.spdx.json` | License compliance, ISO standard |
+
+### SBOM Examples
+
+```bash
+# Generate CycloneDX SBOM (no vulnerability scan)
+scout --sbom-only cyclonedx .
+
+# Generate SPDX SBOM (no vulnerability scan)
+scout --sbom-only spdx .
+
+# Vulnerability scan + SBOM generation in one run
+scout --sbom cyclonedx .
+
+# SBOM for specific ecosystems only
+scout --sbom-only spdx -e go,npm .
+```
+
+### SBOM Output
+
+The generated SBOM includes:
+- All detected dependencies with name and version
+- Package URLs (PURL) for each dependency
+- Metadata (timestamp, tool info, document identifiers)
 
 ## Next Features
 
 - Support for more ecosystems
 - Validation of transitive dependencies (dependencies of dependencies)
-- SBOM (Software Bill of Materials) analyzer/generator
 - Reachability analysis
