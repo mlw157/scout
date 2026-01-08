@@ -71,6 +71,12 @@ scout -e maven,pip .
 # Fetch the latest Scout database
 scout --update-db .
 
+# Use the reviewed vulnerability database (manually verified only)
+scout --reviewed .
+
+# Update and use the reviewed database
+scout --update-db --reviewed .
+
 # Export results to HTML format
 scout -f html .
 
