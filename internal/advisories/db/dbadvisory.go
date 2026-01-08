@@ -23,8 +23,20 @@ type DatabaseAdvisoryService struct {
 	Update bool
 }
 
-const databaseURL = "https://github.com/mlw157/scout-db/raw/main/scout.db"
-const databasePath = "~/.cache/scout/db/scout.db"
+const databaseBaseURL = "https://github.com/mlw157/scout-db/releases/latest/download/"
+const databaseCacheDir = ".cache/scout/db/"
+
+// returns the database filename based on the reviewed flag
+func GetDatabaseFile(reviewed bool) string {
+	if reviewed {
+		return "scout-reviewed.db"
+	}
+	return "scout.db"
+}
+
+func GetDatabaseURL(reviewed bool) string {
+	return databaseBaseURL + GetDatabaseFile(reviewed)
+}
 
 func getHomePath() (string, error) {
 	homeDir, err := os.UserHomeDir()
@@ -34,17 +46,24 @@ func getHomePath() (string, error) {
 	return homeDir, nil
 }
 
-func ensureDatabaseExists() error {
+func getDatabasePath(reviewed bool) (string, error) {
 	homePath, err := getHomePath()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(homePath, databaseCacheDir, GetDatabaseFile(reviewed)), nil
+}
+
+func ensureDatabaseExists(reviewed bool) error {
+	expandedPath, err := getDatabasePath(reviewed)
 	if err != nil {
 		return err
 	}
-	expandedPath := filepath.Join(homePath, databasePath[2:]) // remove the ~ and append the rest
 
 	if _, err := os.Stat(expandedPath); os.IsNotExist(err) {
 		log.Printf("Database not found. Downloading...\n")
 
-		err := downloadDatabase(expandedPath)
+		err := downloadDatabase(reviewed)
 		if err != nil {
 			return err
 		}
@@ -52,16 +71,25 @@ func ensureDatabaseExists() error {
 
 	return nil
 }
-func downloadDatabase(databasePath string) error {
-	log.Printf("Downloading the latest vulnerability database...\n")
 
-	dir := filepath.Dir(databasePath)
-	err := os.MkdirAll(dir, os.ModePerm) // Create the directory if it doesn't exist
+func downloadDatabase(reviewed bool) error {
+	dbFile := GetDatabaseFile(reviewed)
+	dbURL := GetDatabaseURL(reviewed)
+
+	expandedPath, err := getDatabasePath(reviewed)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("Downloading the latest vulnerability database (%s)...\n", dbFile)
+
+	dir := filepath.Dir(expandedPath)
+	err = os.MkdirAll(dir, os.ModePerm) // Create the directory if it doesn't exist
 	if err != nil {
 		return fmt.Errorf("failed to create directory: %w", err)
 	}
 
-	resp, err := http.Get(databaseURL)
+	resp, err := http.Get(dbURL)
 	if err != nil {
 		return fmt.Errorf("failed to download database: %w", err)
 	}
@@ -71,7 +99,7 @@ func downloadDatabase(databasePath string) error {
 		return fmt.Errorf("failed to download database, status code: %d", resp.StatusCode)
 	}
 
-	out, err := os.Create(databasePath)
+	out, err := os.Create(expandedPath)
 	if err != nil {
 		return fmt.Errorf("failed to create database file: %w", err)
 	}
@@ -86,30 +114,29 @@ func downloadDatabase(databasePath string) error {
 	return nil
 }
 
-func NewDatabaseAdvisoryService(update bool) (*DatabaseAdvisoryService, error) {
-	homePath, err := getHomePath()
+func NewDatabaseAdvisoryService(update bool, reviewed bool) (*DatabaseAdvisoryService, error) {
+	expandedPath, err := getDatabasePath(reviewed)
 	if err != nil {
 		return nil, err
 	}
-	expandedPath := filepath.Join(homePath, databasePath[2:]) // remove the '~/' and append the rest
 
 	if update {
-		if err := downloadDatabase(expandedPath); err != nil {
+		if err := downloadDatabase(reviewed); err != nil {
 			return nil, err
 		}
 	}
 
-	err = ensureDatabaseExists()
+	err = ensureDatabaseExists(reviewed)
 	if err != nil {
 		return nil, err
 	}
 
-	db, err := gorm.Open(sqlite.Open(expandedPath), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open(expandedPath), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("advisory: failed to connect to database: %w", err)
 	}
 
-	return &DatabaseAdvisoryService{DB: db}, nil
+	return &DatabaseAdvisoryService{DB: database}, nil
 }
 
 type Reference struct {

@@ -1,15 +1,77 @@
 package db_test
 
 import (
-	"github.com/mlw157/scout/internal/advisories/db"
-	"github.com/mlw157/scout/internal/models"
 	"reflect"
 	"testing"
+
+	"github.com/mlw157/scout/internal/advisories/db"
+	"github.com/mlw157/scout/internal/models"
 )
 
 // todo tests (how to simulate db?)
 func TestFetchVulnerabilities(t *testing.T) {
 
+}
+
+func TestGetDatabaseFile(t *testing.T) {
+	testCases := []struct {
+		name     string
+		reviewed bool
+		want     string
+	}{
+		{
+			name:     "default database when reviewed is false",
+			reviewed: false,
+			want:     "scout.db",
+		},
+		{
+			name:     "reviewed database when reviewed is true",
+			reviewed: true,
+			want:     "scout-reviewed.db",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := db.GetDatabaseFile(tc.reviewed)
+			if got != tc.want {
+				t.Errorf("GetDatabaseFile(%v) = %q, want %q", tc.reviewed, got, tc.want)
+			}
+		})
+	}
+}
+
+func TestGetDatabaseURL(t *testing.T) {
+	testCases := []struct {
+		name     string
+		reviewed bool
+		wantEnd  string
+	}{
+		{
+			name:     "default database URL",
+			reviewed: false,
+			wantEnd:  "/scout.db",
+		},
+		{
+			name:     "reviewed database URL",
+			reviewed: true,
+			wantEnd:  "/scout-reviewed.db",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := db.GetDatabaseURL(tc.reviewed)
+			if len(got) < len(tc.wantEnd) {
+				t.Errorf("GetDatabaseURL(%v) = %q, too short", tc.reviewed, got)
+				return
+			}
+			gotEnd := got[len(got)-len(tc.wantEnd):]
+			if gotEnd != tc.wantEnd {
+				t.Errorf("GetDatabaseURL(%v) ends with %q, want %q", tc.reviewed, gotEnd, tc.wantEnd)
+			}
+		})
+	}
 }
 
 func TestIsVersionVulnerable(t *testing.T) {
