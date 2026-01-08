@@ -55,6 +55,7 @@ You can manually update the database using the `--update-db` flag if needed.
 | `--sbom-only` | | Generate SBOM only, skip vulnerability scan (cyclonedx, spdx) | - | `--sbom-only spdx` |
 | `--sbom-output` | | SBOM output file path | `sbom.[format].json` | `--sbom-output my-sbom.json` |
 | `--update-db` | | Fetch the latest Scout database | `false` | `--update-db` |
+| `--reviewed` | | Use reviewed database (manually verified vulnerabilities only) | `false` | `--reviewed` |
 | `--version` | `-v` | Print version and exit | | `-v` |
 | `--help` | `-h` | Show help message | | `-h` |
 

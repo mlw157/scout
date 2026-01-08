@@ -2,14 +2,15 @@ package engine
 
 import (
 	"fmt"
+	"log"
+	"sync"
+
 	"github.com/mlw157/scout/internal/advisories/db"
 	"github.com/mlw157/scout/internal/detectors"
 	"github.com/mlw157/scout/internal/exporters"
 	"github.com/mlw157/scout/internal/factories"
 	"github.com/mlw157/scout/internal/models"
 	"github.com/mlw157/scout/internal/scanner"
-	"log"
-	"sync"
 )
 
 // Engine will orchestrate scanners with a detector, essentially detecting files and passing them to the correct scanner
@@ -28,6 +29,7 @@ type Config struct {
 	Token          string
 	SequentialMode bool
 	LatestMode     bool
+	ReviewedMode   bool
 }
 
 func NewEngine(detector detectors.Detector, config Config) *Engine {
@@ -111,7 +113,7 @@ func (e *Engine) Scan(root string) ([]*models.ScanResult, error) {
 // PopulateScanners if a scanner for the file ecosystem doesn't exist yet, make it and add it to map, for now we use default scanners (database advisory)
 // todo don't use default advisory
 func (e *Engine) populateScanners() error {
-	a, err := db.NewDatabaseAdvisoryService(e.config.LatestMode)
+	a, err := db.NewDatabaseAdvisoryService(e.config.LatestMode, e.config.ReviewedMode)
 	if err != nil {
 		return err
 	}

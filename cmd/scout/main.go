@@ -38,6 +38,7 @@ func main() {
 		tokenFlag        string
 		sequentialFlag   bool
 		updateFlag       bool
+		reviewedFlag     bool
 		versionFlag      bool
 		helpFlag         bool
 		sbomFlag         string
@@ -53,6 +54,7 @@ func main() {
 	flag.StringVar(&tokenFlag, "token", "", "GitHub token for authenticated API requests (deprecated)")
 	flag.BoolVar(&sequentialFlag, "sequential", false, "Process files sequentially instead of concurrently")
 	flag.BoolVar(&updateFlag, "update-db", false, "Download and use the latest version of scout database")
+	flag.BoolVar(&reviewedFlag, "reviewed", false, "Use the reviewed vulnerability database")
 	flag.BoolVar(&versionFlag, "version", false, "Print version and exit")
 	flag.BoolVar(&helpFlag, "help", false, "Show help message")
 	flag.StringVar(&sbomFlag, "sbom", "", "Generate SBOM (cyclonedx, spdx) along with vulnerability scan")
@@ -251,6 +253,7 @@ func main() {
 			Token:          tokenFlag,
 			SequentialMode: sequentialFlag,
 			LatestMode:     updateFlag,
+			ReviewedMode:   reviewedFlag,
 		}
 
 		formatExtensions := map[string]string{
